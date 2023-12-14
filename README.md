@@ -1,2 +1,2 @@
-# platform-docs
-Documentation for Silimate platform
+# Silimate Platform Documentation
+Documentation for Silimate platform with [mkdocs](https://www.mkdocs.org/)
