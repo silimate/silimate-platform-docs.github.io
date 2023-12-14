@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" /><link rel="canonical" href="https://docs.silimate.com/" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Silimate Platform</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = "/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> Silimate Platform
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#quick-setup-web-gui">Quick Setup: Web GUI</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#port-forwarding-recommended">Port forwarding (recommended)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#x11-forwardingvnc">X11 forwarding/VNC</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#quick-setup-cli">Quick Setup: CLI</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Usage</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="flow-building.md">Flow Building</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="built-in-steps.md">Built-In Steps</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="step-building.md">Step Building</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="cli.md">CLI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="dashboards.md">Dashboards</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="installation.md">Installation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="infrastructure.md">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="debug-tools.md">Debug Tools</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="architecture.md">Architecture</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">Silimate Platform</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="welcome-to-silimate-platform-docs">Welcome to Silimate Platform Docs</h1>
+<p>This is the documentation website for the Silimate Platform. For any questions, comments, or concerns, please contact support via Slack/<a href="mailto:contact@silimate.com">email</a>.</p>
+<h2 id="quick-setup-web-gui">Quick Setup: Web GUI</h2>
+<p>Silimate Platform should be already installed and properly running on your server. If it is not, see <a href="installation.md">Installation</a> and/or <a href="infrastructure.md">Infrastructure</a>, or contact support.</p>
+<h3 id="port-forwarding-recommended">Port forwarding (recommended)</h3>
+<p>To access the GUI on your local machine, you need to provide an SSH tunnel into the server with <em>port forwarding</em>. To do this, add the argument <code>-L 80:192.168.49.2:80</code> to your <code>ssh</code> command, for example:</p>
+<pre><code class="language-sh">sudo ssh -Y -i testing_ec2.pem -L 80:192.168.49.2:80 ec2-user@ec2-XX-XX-X-XXX.us-west-2.compute.amazonaws.com
+</code></pre>
+<p>NOTE: you may need root privileges on your local machine to forward to port 80, hence <code>sudo</code> in the above command.</p>
+<p>Now, you should be able to navigate to <a href="http://localhost">http://localhost</a> on your local browser and the platform web GUI should appear.</p>
+<h3 id="x11-forwardingvnc">X11 forwarding/VNC</h3>
+<p>Assuming you have X11 forwarding/VNC setup between your local machine and the server, you may simply open a browser session on the server (e.g., <code>firefox</code>) and navigate to <a href="http://192.168.49.2">http://192.168.49.2</a>.</p>
+<p>NOTE: this approach may be less responsive than port forwarding.</p>
+<h2 id="quick-setup-cli">Quick Setup: CLI</h2>
+<p>Silimate Platform should be already installed and properly running on your server. If it is not, see <a href="installation.md">Installation</a> and/or <a href="infrastructure.md">Infrastructure</a>, or contact support.</p>
+<p>To use the CLI:</p>
+<ul>
+<li>Export <code>SILIMATE_PASSWORD</code> in your <code>.profile</code> (or equivalent shell init script):</li>
+</ul>
+<pre><code class="language-sh">export SILIMATE_PASSWORD=Silimate1234%4321etamiliS
+</code></pre>
+<ul>
+<li>Ensure <code>requests</code> library for <code>python3</code> is installed:</li>
+</ul>
+<pre><code class="language-sh">python3 -m pip install requests
+</code></pre>
+<ul>
+<li>Add <code>/silimate/cli/</code> to your <code>$PATH</code> variable:</li>
+</ul>
+<pre><code class="language-sh">export PATH=$PATH:/silimate/cli
+</code></pre>
+<ul>
+<li>Restart your shell and test with <code>smake -l</code>. You should see a list of all the available flows.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.5.3
+Build Date UTC : 2023-12-14 09:08:17.688120+00:00
+-->

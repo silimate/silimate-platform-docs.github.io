@@ -1,0 +1,16 @@
+site_name: Silimate Platform
+site_url: https://docs.silimate.com
+nav:
+  - Home: index.md
+  - Usage:
+    - Flow Building: flow-building.md
+    - Built-In Steps: built-in-steps.md
+    - Step Building: step-building.md
+    - CLI: cli.md
+    - Dashboards: dashboards.md
+  - Advanced:
+    - Installation: installation.md
+    - Infrastructure: infrastructure.md
+    - Debug Tools: debug-tools.md
+    - Architecture: architecture.md
+theme: readthedocs
