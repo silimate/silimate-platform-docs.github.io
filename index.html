@@ -51,12 +51,20 @@
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#quick-setup-cli">Quick Setup: CLI</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cad-server-setup">CAD Server Setup</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#local-machine-setup">Local Machine Setup</a>
+    </li>
+        </ul>
     </li>
     </ul>
                 </li>
               </ul>
               <p class="caption"><span class="caption-text">Usage</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="flow-management/">Flow Management</a>
+                  </li>
                   <li class="toctree-l1"><a class="" href="flow-building.md">Flow Building</a>
                   </li>
                   <li class="toctree-l1"><a class="" href="built-in-steps.md">Built-In Steps</a>
@@ -105,23 +113,51 @@
                 <h1 id="welcome-to-silimate-platform-docs">Welcome to Silimate Platform Docs</h1>
 <p>This is the documentation website for the Silimate Platform. For any questions, comments, or concerns, please contact support via Slack/<a href="mailto:contact@silimate.com">email</a>.</p>
 <h2 id="quick-setup-web-gui">Quick Setup: Web GUI</h2>
-<p>Silimate Platform should be already installed and properly running on your server. If it is not, see <a href="installation.md">Installation</a> and/or <a href="infrastructure.md">Infrastructure</a>, or contact support.</p>
+<p>Silimate Platform should be already installed and properly running on your CAD server. If it is not, see <a href="installation.md">Installation</a> and/or <a href="infrastructure.md">Infrastructure</a>, or contact support.</p>
 <h3 id="port-forwarding-recommended">Port forwarding (recommended)</h3>
-<p>To access the GUI on your local machine, you need to provide an SSH tunnel into the server with <em>port forwarding</em>. To do this, add the argument <code>-L 80:192.168.49.2:80</code> to your <code>ssh</code> command, for example:</p>
+<p>To access the GUI on your local machine, you need to provide an SSH tunnel into the CAD server with <em>port forwarding</em>. To do this, add the argument <code>-L 80:192.168.49.2:80</code> to your <code>ssh</code> command, for example:</p>
 <pre><code class="language-sh">sudo ssh -Y -i testing_ec2.pem -L 80:192.168.49.2:80 ec2-user@ec2-XX-XX-X-XXX.us-west-2.compute.amazonaws.com
 </code></pre>
 <p>NOTE: you may need root privileges on your local machine to forward to port 80, hence <code>sudo</code> in the above command.</p>
 <p>Now, you should be able to navigate to <a href="http://localhost">http://localhost</a> on your local browser and the platform web GUI should appear.</p>
+<p><img alt="Web GUI on local machine via port forwarding" src="img/gui.png" /></p>
 <h3 id="x11-forwardingvnc">X11 forwarding/VNC</h3>
-<p>Assuming you have X11 forwarding/VNC setup between your local machine and the server, you may simply open a browser session on the server (e.g., <code>firefox</code>) and navigate to <a href="http://192.168.49.2">http://192.168.49.2</a>.</p>
+<p>Assuming you have X11 forwarding/VNC setup between your local machine and the CAD server, you may simply open a remote browser session (e.g., <code>firefox</code>) and navigate to <a href="http://192.168.49.2">http://192.168.49.2</a>.</p>
 <p>NOTE: this approach may be less responsive than port forwarding.</p>
 <h2 id="quick-setup-cli">Quick Setup: CLI</h2>
-<p>Silimate Platform should be already installed and properly running on your server. If it is not, see <a href="installation.md">Installation</a> and/or <a href="infrastructure.md">Infrastructure</a>, or contact support.</p>
-<p>To use the CLI:</p>
+<p>Silimate Platform should be already installed and properly running on your CAD server. If it is not, see <a href="installation.md">Installation</a> and/or <a href="infrastructure.md">Infrastructure</a>, or contact support.</p>
+<h3 id="cad-server-setup">CAD Server Setup</h3>
 <ul>
-<li>Export <code>SILIMATE_PASSWORD</code> in your <code>.profile</code> (or equivalent shell init script):</li>
+<li>Ensure <code>requests</code> library for <code>python3</code> is installed:</li>
 </ul>
-<pre><code class="language-sh">export SILIMATE_PASSWORD=Silimate1234%4321etamiliS
+<pre><code class="language-sh">python3 -m pip install requests
+</code></pre>
+<ul>
+<li>Add to your <code>.profile</code> (or equivalent shell init script):</li>
+</ul>
+<pre><code class="language-sh">export SILIMATE_ENDPOINT=192.168.49.2
+export SILIMATE_PASSWORD=Silimate1234%4321etamiliS
+export PATH=$PATH:/silimate/cli
+</code></pre>
+<ul>
+<li>Restart your shell and test with <code>smake -l</code>. You should see a list of all the available flows, something like:</li>
+</ul>
+<pre><code>example-verilator-sim (active, paused)
+example-yosys-syn (active, paused)
+gcd-genus-syn (active)
+gcd-genus-syn-step (active)
+</code></pre>
+<h3 id="local-machine-setup">Local Machine Setup</h3>
+<ul>
+<li>Make sure that SSH port forwarding is set up correctly. See <a href="#quick-setup-web-gui">Quick Setup: Web GUI</a></li>
+<li>Clone the CLI to your local machine path <code>&lt;CLI_DIRECTORY&gt;</code> (wherever you desire):</li>
+</ul>
+<pre><code class="language-sh">git clone https://github.com/silimate/cli/ &lt;CLI_DIRECTORY&gt;
+</code></pre>
+<ul>
+<li>Ensure the first line of <code>&lt;CLI_DIRECTORY&gt;/smake</code> points to your python3 interpreter path, e.g.:</li>
+</ul>
+<pre><code class="language-sh">#!/usr/local/bin/python3
 </code></pre>
 <ul>
 <li>Ensure <code>requests</code> library for <code>python3</code> is installed:</li>
@@ -129,16 +165,26 @@
 <pre><code class="language-sh">python3 -m pip install requests
 </code></pre>
 <ul>
-<li>Add <code>/silimate/cli/</code> to your <code>$PATH</code> variable:</li>
+<li>Add to your <code>.profile</code> (or equivalent shell init script):</li>
 </ul>
-<pre><code class="language-sh">export PATH=$PATH:/silimate/cli
+<pre><code class="language-sh">export SILIMATE_ENDPOINT=localhost
+export SILIMATE_PASSWORD=Silimate1234%4321etamiliS
+export PATH=$PATH:&lt;CLI_DIRECTORY&gt;
 </code></pre>
 <ul>
-<li>Restart your shell and test with <code>smake -l</code>. You should see a list of all the available flows.</li>
+<li>Restart your shell and test with <code>smake -l</code>. You should see a list of all the available flows, something like:</li>
 </ul>
+<pre><code>example-verilator-sim (active, paused)
+example-yosys-syn (active, paused)
+gcd-genus-syn (active)
+gcd-genus-syn-step (active)
+</code></pre>
               
             </div>
           </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="flow-management/" class="btn btn-neutral float-right" title="Flow Management">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
 
   <hr/>
 
@@ -161,6 +207,8 @@
     
     
     
+      <span><a href="flow-management/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
   </span>
 </div>
     <script src="js/jquery-3.6.0.min.js"></script>
@@ -179,5 +227,5 @@
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-12-14 09:24:24.548080+00:00
+Build Date UTC : 2023-12-14 10:15:40.848797+00:00
 -->
