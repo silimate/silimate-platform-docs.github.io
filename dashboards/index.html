@@ -65,6 +65,22 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Dashboards</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#architecture">Architecture</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#creating-a-dashboard">Creating a Dashboard</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#default-dashboard-descriptions">Default Dashboard Descriptions</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#errorwarning-tracker">Error/Warning Tracker</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#run-metrics-snapshot">Run Metrics Snapshot</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#run-metrics-trend">Run Metrics Trend</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#stylus-dashboard">Stylus Dashboard</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                   </li>
               </ul>
@@ -109,7 +125,30 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="dashboards">Dashboards</h1>
-<p>The platform's dashboarding system</p>
+<p>Silimate Platform's dashboarding system is based on Grafana with Plotly plugins. It also has support for Cadence Stylus metrics when a Cadence-based flow with Common UI is enabled. For more information on how to build dashboards with these, check out the links below or contact support.</p>
+<ul>
+<li><a href="https://grafana.com/">Grafana</a></li>
+<li><a href="https://plotly.com/">Plotly</a></li>
+<li><a href="https://grafana.com/grafana/plugins/natel-plotly-panel/">Natel Plotly Panel Plugin for Grafana</a></li>
+<li><a href="https://grafana.com/grafana/plugins/ae3e-plotly-panel/">AE3E Plotly Panel Plugin for Grafana</a></li>
+<li><a href="https://community.cadence.com/cadence_blogs_8/b/di/posts/what-is-stylus-ui">Cadence Stylus UI</a></li>
+</ul>
+<h2 id="architecture">Architecture</h2>
+<p>The basic idea is that logs/metrics go into a PostgreSQL warehouse, which Grafana queries and can make dashboards/plots from. The log/metric collection happens in explicit steps that call the <a href="../step-building/#logmetrics-api">Log/Metrics API</a>.</p>
+<h2 id="creating-a-dashboard">Creating a Dashboard</h2>
+<p>To create a dashboard, click the "+ Create New" button in the top navigation bar and click "Dashboard" from the dropdown menu.</p>
+<p><img alt="Create new dashboard" src="../img/new-dash-button.png" /></p>
+<p>The new dashboard page:</p>
+<p><img alt="New dashboard" src="../img/new-dash.png" /></p>
+<h2 id="default-dashboard-descriptions">Default Dashboard Descriptions</h2>
+<h3 id="errorwarning-tracker">Error/Warning Tracker</h3>
+<p>Track errors and warnings and group them by type.</p>
+<h3 id="run-metrics-snapshot">Run Metrics Snapshot</h3>
+<p>Show power, performance, area (PPA) metrics collected for a given flow run.</p>
+<h3 id="run-metrics-trend">Run Metrics Trend</h3>
+<p>Show power, performance, area (PPA) metrics collected across multiple flow runs.</p>
+<h3 id="stylus-dashboard">Stylus Dashboard</h3>
+<p>Show power, performance, area (PPA) metrics in Cadence's integrated metric viewer.</p>
               
             </div>
           </div><footer>
