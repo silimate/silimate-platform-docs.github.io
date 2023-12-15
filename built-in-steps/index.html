@@ -101,8 +101,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../cli/">CLI</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../metrics/">Metrics</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../dashboards/">Dashboards</a>
                   </li>
               </ul>
@@ -110,11 +108,9 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../installing-updates/">Installing Updates</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation Guide</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../infrastructure/">Infrastructure</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../debug-tools/">Debug Tools</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../admin-tools/">Admin Tools</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">About</span></p>
@@ -175,7 +171,7 @@
 <h3 id="cadence-genus-synthesis-flow">Cadence Genus Synthesis Flow</h3>
 <p>Performs the above three steps in one.</p>
 <h2 id="logsmetrics">Logs/Metrics</h2>
-<p>Collecting and reporting logs/metrics is done explicitly, by calling the respective APIs through a flow step. The log/metric APIs are described in more detail in <a href="../metrics/">Metrics</a>.</p>
+<p>Collecting and reporting logs/metrics is done explicitly, by calling the respective APIs through a flow step. The <a href="../step-building/#logmetrics-api">Log/Metric APIs</a> are described in more detail later.</p>
 <h3 id="cadence-metrics">Cadence Metrics</h3>
 <p>This step takes Cadence flow-generated <code>metrics.csv</code> and <code>metrics.json</code> and puts them in the metrics database.</p>
 <h3 id="import-logs-to-database">Import Logs to Database</h3>

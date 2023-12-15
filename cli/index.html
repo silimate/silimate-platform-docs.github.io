@@ -63,9 +63,53 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">CLI</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#description">Description</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#arguments">Arguments</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#list">List</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#list-all-flows">List all flows</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#list-all-flows-regex-filter-for-example">List all flows, regex filter for example</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#list-all-flow-runs">List all flow runs</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#list-all-steps-in-flow-run">List all steps in flow run</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#monitor">Monitor</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#monitor-a-running-flow-runs-logs">Monitor a running flow run's logs</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#run">Run</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#trigger-new-flow-run-unnamed">Trigger new flow run (unnamed)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#trigger-new-flow-run-named">Trigger new flow run (named)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pauseunpauseabort">Pause/Unpause/Abort</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#pause-a-flow-run">Pause a flow run</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#unpause-a-flow-run">Unpause a flow run</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#abortkill-a-named-flow-run">Abort/kill a (named) flow run</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
     </ul>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../metrics/">Metrics</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../dashboards/">Dashboards</a>
                   </li>
@@ -74,11 +118,9 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../installing-updates/">Installing Updates</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation Guide</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../infrastructure/">Infrastructure</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../debug-tools/">Debug Tools</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../admin-tools/">Admin Tools</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">About</span></p>
@@ -113,12 +155,230 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="command-line-interface-cli">Command-Line Interface (CLI)</h1>
+<p>See <a href="../#quick-setup-cli">Quick Setup: CLI</a> for setup instructions.</p>
+<h2 id="description">Description</h2>
+<p>Silimake (<code>smake</code>) is the command-line interface (CLI) for Silimate Platform.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="language-sh">usage: smake [-h] [-f FLOW] [-fr FLOW_RUN] [-s STEP] (-l | -m | -r | -p | -up | -k) [--filter FILTER] [--from-step FROM_STEP]
+</code></pre>
+<h2 id="arguments">Arguments</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">short</th>
+<th style="text-align: left;">long &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</th>
+<th style="text-align: left;">default</th>
+<th style="text-align: left;">help</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>-h</code></td>
+<td style="text-align: left;"><code>--help</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Show this help message and exit</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-f</code></td>
+<td style="text-align: left;"><code>--flow</code></td>
+<td style="text-align: left;">`pwd`</td>
+<td style="text-align: left;">Name of the flow (default: current directory name)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-fr</code></td>
+<td style="text-align: left;"><code>--flow-run</code></td>
+<td style="text-align: left;">`date`</td>
+<td style="text-align: left;">Name of the flow run (default: UNIX timestamp for new flow run, latest for prior run)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-s</code></td>
+<td style="text-align: left;"><code>--step</code></td>
+<td style="text-align: left;"><code>None</code></td>
+<td style="text-align: left;">Name of the step</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-ls</code></td>
+<td style="text-align: left;"><code>--list</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">List all available flows/flow runs/flow steps and their status</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-m</code></td>
+<td style="text-align: left;"><code>--monitor</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Monitor the selected flow run (stream logs to stdout)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-r</code></td>
+<td style="text-align: left;"><code>--run</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Run the selected flow</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-p</code></td>
+<td style="text-align: left;"><code>--pause</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Pause the selected flow run</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-up</code></td>
+<td style="text-align: left;"><code>--unpause</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Unpause the selected flow run</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-k</code></td>
+<td style="text-align: left;"><code>--kill</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Kill the selected flow run</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>--filter</code></td>
+<td style="text-align: left;"><code>None</code></td>
+<td style="text-align: left;">Find all available flows/flow runs/flow steps matching the given regular expression</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>--from-step</code></td>
+<td style="text-align: left;"><code>None</code></td>
+<td style="text-align: left;">Start from a specific step</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples</h2>
+<h3 id="list">List</h3>
+<h4 id="list-all-flows">List all flows</h4>
+<p><code>smake -l</code></p>
+<pre><code>example-verilator-sim (active, paused)
+example-yosys-syn (active)
+gcd-genus-syn (active)
+gcd-genus-syn-step (active)
+</code></pre>
+<h4 id="list-all-flows-regex-filter-for-example">List all flows, regex filter for example</h4>
+<p><code>smake -l --filter "example-.*"</code></p>
+<pre><code>example-verilator-sim (active, paused)
+example-yosys-syn (active)
+</code></pre>
+<h4 id="list-all-flow-runs">List all flow runs</h4>
+<p><code>smake -l -f gcd-genus-syn</code></p>
+<pre><code>manual__2023-11-16T17:38:18.006881+00:00 (success)
+manual__2023-12-14T06:21:11.789260+00:00 (failed)
+manual__2023-12-14T06:45:11.277715+00:00 (failed)
+manual__2023-12-14T06:52:21.282334+00:00 (success)
+</code></pre>
+<h4 id="list-all-steps-in-flow-run">List all steps in flow run</h4>
+<p><code>smake -l -f gcd-genus-syn -fr manual__2023-12-14T06:52:21.282334+00:00</code></p>
+<pre><code>cadence-genus-flow-setup-1699496733809 (success)
+input-files-from-git-1699343281243 (success)
+cadence-genus-syn-flow-1699514818818 (success)
+log-importer-1699497799903 (success)
+cadence-genus-syn-metrics-1699501445634 (success)
+cadence-csv-metrics-1699513376028 (success)
+pdk-tsmc22-arm-setup-1699009592822 (success)
+log-importer-1699496819963 (success)
+log-importer-1699507594266 (success)
+</code></pre>
+<h3 id="monitor">Monitor</h3>
+<h4 id="monitor-a-running-flow-runs-logs">Monitor a running flow run's logs</h4>
+<p><code>smake -m -f example-yosys-syn -fr manual__2023-12-15T103626.3558800000-d74541b94</code></p>
+<pre><code>...
+...
+[scheduler] [2023-12-15T10:36:39.767+0000] {pod.py:974} INFO - Building pod openroad-yosys-synthesis-1692309880919-186py6gr with labels: {'dag_id': 'example-yosys-syn', 'task_id': 'openroad-yosys-synthesis-1692309880919', 'run_id': 'manual__2023-12-15T103626.3558800000-d74541b94', 'kubernetes_pod_operator': 'True', 'try_number': '1'}
+[scheduler] [2023-12-15T10:36:39.994+0000] {base.py:73} INFO - Using connection ID 'kubernetes_default' for task execution.
+[scheduler] [2023-12-15T10:36:40.585+0000] {pod.py:549} INFO - Found matching pod openroad-yosys-synthesis-1692309880919-186py6gr with labels {'airflow_kpo_in_cluster': 'True', 'airflow_version': '2.7.3', 'dag_id': 'example-yosys-syn', 'kubernetes_pod_operator': 'True', 'run_id': 'manual__2023-12-15T103626.3558800000-d74541b94', 'task_id': 'openroad-yosys-synthesis-1692309880919', 'try_number': '1'}
+[scheduler] [2023-12-15T10:36:40.585+0000] {pod.py:550} INFO - `try_number` of task_instance: 1
+[scheduler] [2023-12-15T10:36:40.585+0000] {pod.py:551} INFO - `try_number` of pod: 1
+[scheduler] [2023-12-15T10:36:40.590+0000] {pod_manager.py:359} WARNING - Pod not yet started: openroad-yosys-synthesis-1692309880919-186py6gr
+[scheduler] [2023-12-15T10:36:41.596+0000] {pod_manager.py:359} WARNING - Pod not yet started: openroad-yosys-synthesis-1692309880919-186py6gr
+[openroad-yosys-synthesis-1692309880919]  /OpenROAD-flow-scripts/flow/util/markDontUse.py -p &quot;TAPCELL_X1 FILLCELL_X1 AOI211_X1 OAI211_X1&quot; -i /OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib -o objects/nangate45/gcd/base/lib/NangateOpenCellLibrary_typical.lib
+[openroad-yosys-synthesis-1692309880919]  Opening file for replace: /OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
+[openroad-yosys-synthesis-1692309880919]  Marked 4 cells as dont_use
+[openroad-yosys-synthesis-1692309880919]  Commented 0 lines containing &quot;original_pin&quot;
+[openroad-yosys-synthesis-1692309880919]  Replaced malformed functions 0
+[openroad-yosys-synthesis-1692309880919]  Writing replaced file: objects/nangate45/gcd/base/lib/NangateOpenCellLibrary_typical.lib
+[openroad-yosys-synthesis-1692309880919]  mkdir -p /***/build/example-yosys-syn/openroad-yosys-synthesis-1692309880919/outputs /***/build/example-yosys-syn/openroad-yosys-synthesis-1692309880919/outputs /***/build/example-yosys-syn/openroad-yosys-synthesis-1692309880919/outputs
+[openroad-yosys-synthesis-1692309880919]  (/usr/bin/time -f 'Elapsed time: %E[h:]min:sec. CPU time: user %U sys %S (%P). Peak memory: %MKB.' yosys -v 3 -c /OpenROAD-flow-scripts/flow/scripts/synth.tcl) 2&gt;&amp;1 | tee /***/build/example-yosys-syn/openroad-yosys-synthesis-1692309880919/outputs/1_1_yosys.log
+[openroad-yosys-synthesis-1692309880919]  1. Executing Verilog-2005 frontend: ./designs/src/gcd/gcd.v
+[openroad-yosys-synthesis-1692309880919]  2. Executing Liberty frontend.
+[openroad-yosys-synthesis-1692309880919]  3. Executing Verilog-2005 frontend: /OpenROAD-flow-scripts/flow/platforms/nangate45/cells_clkgate.v
+[openroad-yosys-synthesis-1692309880919]  4. Executing SYNTH pass.
+...
+...
+</code></pre>
+<h3 id="run">Run</h3>
+<h4 id="trigger-new-flow-run-unnamed">Trigger new flow run (unnamed)</h4>
+<p><code>smake -r -f example-yosys-syn</code></p>
+<pre><code>...
+...
+[scheduler] [2023-12-15T10:36:39.767+0000] {pod.py:974} INFO - Building pod openroad-yosys-synthesis-1692309880919-186py6gr with labels: {'dag_id': 'example-yosys-syn', 'task_id': 'openroad-yosys-synthesis-1692309880919', 'run_id': 'manual__2023-12-15T103626.3558800000-d74541b94', 'kubernetes_pod_operator': 'True', 'try_number': '1'}
+[scheduler] [2023-12-15T10:36:39.994+0000] {base.py:73} INFO - Using connection ID 'kubernetes_default' for task execution.
+[scheduler] [2023-12-15T10:36:40.585+0000] {pod.py:549} INFO - Found matching pod openroad-yosys-synthesis-1692309880919-186py6gr with labels {'airflow_kpo_in_cluster': 'True', 'airflow_version': '2.7.3', 'dag_id': 'example-yosys-syn', 'kubernetes_pod_operator': 'True', 'run_id': 'manual__2023-12-15T103626.3558800000-d74541b94', 'task_id': 'openroad-yosys-synthesis-1692309880919', 'try_number': '1'}
+[scheduler] [2023-12-15T10:36:40.585+0000] {pod.py:550} INFO - `try_number` of task_instance: 1
+[scheduler] [2023-12-15T10:36:40.585+0000] {pod.py:551} INFO - `try_number` of pod: 1
+[scheduler] [2023-12-15T10:36:40.590+0000] {pod_manager.py:359} WARNING - Pod not yet started: openroad-yosys-synthesis-1692309880919-186py6gr
+[scheduler] [2023-12-15T10:36:41.596+0000] {pod_manager.py:359} WARNING - Pod not yet started: openroad-yosys-synthesis-1692309880919-186py6gr
+[openroad-yosys-synthesis-1692309880919]  /OpenROAD-flow-scripts/flow/util/markDontUse.py -p &quot;TAPCELL_X1 FILLCELL_X1 AOI211_X1 OAI211_X1&quot; -i /OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib -o objects/nangate45/gcd/base/lib/NangateOpenCellLibrary_typical.lib
+[openroad-yosys-synthesis-1692309880919]  Opening file for replace: /OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
+[openroad-yosys-synthesis-1692309880919]  Marked 4 cells as dont_use
+[openroad-yosys-synthesis-1692309880919]  Commented 0 lines containing &quot;original_pin&quot;
+[openroad-yosys-synthesis-1692309880919]  Replaced malformed functions 0
+[openroad-yosys-synthesis-1692309880919]  Writing replaced file: objects/nangate45/gcd/base/lib/NangateOpenCellLibrary_typical.lib
+[openroad-yosys-synthesis-1692309880919]  mkdir -p /***/build/example-yosys-syn/openroad-yosys-synthesis-1692309880919/outputs /***/build/example-yosys-syn/openroad-yosys-synthesis-1692309880919/outputs /***/build/example-yosys-syn/openroad-yosys-synthesis-1692309880919/outputs
+[openroad-yosys-synthesis-1692309880919]  (/usr/bin/time -f 'Elapsed time: %E[h:]min:sec. CPU time: user %U sys %S (%P). Peak memory: %MKB.' yosys -v 3 -c /OpenROAD-flow-scripts/flow/scripts/synth.tcl) 2&gt;&amp;1 | tee /***/build/example-yosys-syn/openroad-yosys-synthesis-1692309880919/outputs/1_1_yosys.log
+[openroad-yosys-synthesis-1692309880919]  1. Executing Verilog-2005 frontend: ./designs/src/gcd/gcd.v
+[openroad-yosys-synthesis-1692309880919]  2. Executing Liberty frontend.
+[openroad-yosys-synthesis-1692309880919]  3. Executing Verilog-2005 frontend: /OpenROAD-flow-scripts/flow/platforms/nangate45/cells_clkgate.v
+[openroad-yosys-synthesis-1692309880919]  4. Executing SYNTH pass.
+...
+...
+</code></pre>
+<h4 id="trigger-new-flow-run-named">Trigger new flow run (named)</h4>
+<p><code>smake -r -f example-yosys-syn -f NAMED_RUN</code></p>
+<pre><code>...
+...
+[scheduler] [2023-12-15T10:36:39.767+0000] {pod.py:974} INFO - Building pod openroad-yosys-synthesis-1692309880919-186py6gr with labels: {'dag_id': 'example-yosys-syn', 'task_id': 'openroad-yosys-synthesis-1692309880919', 'run_id': 'NAMED_RUN', 'kubernetes_pod_operator': 'True', 'try_number': '1'}
+[scheduler] [2023-12-15T10:36:39.994+0000] {base.py:73} INFO - Using connection ID 'kubernetes_default' for task execution.
+[scheduler] [2023-12-15T10:36:40.585+0000] {pod.py:549} INFO - Found matching pod openroad-yosys-synthesis-1692309880919-186py6gr with labels {'airflow_kpo_in_cluster': 'True', 'airflow_version': '2.7.3', 'dag_id': 'example-yosys-syn', 'kubernetes_pod_operator': 'True', 'run_id': 'NAMED_RUN', 'task_id': 'openroad-yosys-synthesis-1692309880919', 'try_number': '1'}
+[scheduler] [2023-12-15T10:36:40.585+0000] {pod.py:550} INFO - `try_number` of task_instance: 1
+[scheduler] [2023-12-15T10:36:40.585+0000] {pod.py:551} INFO - `try_number` of pod: 1
+[scheduler] [2023-12-15T10:36:40.590+0000] {pod_manager.py:359} WARNING - Pod not yet started: openroad-yosys-synthesis-1692309880919-186py6gr
+[scheduler] [2023-12-15T10:36:41.596+0000] {pod_manager.py:359} WARNING - Pod not yet started: openroad-yosys-synthesis-1692309880919-186py6gr
+[openroad-yosys-synthesis-1692309880919]  /OpenROAD-flow-scripts/flow/util/markDontUse.py -p &quot;TAPCELL_X1 FILLCELL_X1 AOI211_X1 OAI211_X1&quot; -i /OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib -o objects/nangate45/gcd/base/lib/NangateOpenCellLibrary_typical.lib
+[openroad-yosys-synthesis-1692309880919]  Opening file for replace: /OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
+[openroad-yosys-synthesis-1692309880919]  Marked 4 cells as dont_use
+[openroad-yosys-synthesis-1692309880919]  Commented 0 lines containing &quot;original_pin&quot;
+[openroad-yosys-synthesis-1692309880919]  Replaced malformed functions 0
+[openroad-yosys-synthesis-1692309880919]  Writing replaced file: objects/nangate45/gcd/base/lib/NangateOpenCellLibrary_typical.lib
+[openroad-yosys-synthesis-1692309880919]  mkdir -p /***/build/example-yosys-syn/openroad-yosys-synthesis-1692309880919/outputs /***/build/example-yosys-syn/openroad-yosys-synthesis-1692309880919/outputs /***/build/example-yosys-syn/openroad-yosys-synthesis-1692309880919/outputs
+[openroad-yosys-synthesis-1692309880919]  (/usr/bin/time -f 'Elapsed time: %E[h:]min:sec. CPU time: user %U sys %S (%P). Peak memory: %MKB.' yosys -v 3 -c /OpenROAD-flow-scripts/flow/scripts/synth.tcl) 2&gt;&amp;1 | tee /***/build/example-yosys-syn/openroad-yosys-synthesis-1692309880919/outputs/1_1_yosys.log
+[openroad-yosys-synthesis-1692309880919]  1. Executing Verilog-2005 frontend: ./designs/src/gcd/gcd.v
+[openroad-yosys-synthesis-1692309880919]  2. Executing Liberty frontend.
+[openroad-yosys-synthesis-1692309880919]  3. Executing Verilog-2005 frontend: /OpenROAD-flow-scripts/flow/platforms/nangate45/cells_clkgate.v
+[openroad-yosys-synthesis-1692309880919]  4. Executing SYNTH pass.
+...
+...
+</code></pre>
+<h3 id="pauseunpauseabort">Pause/Unpause/Abort</h3>
+<h4 id="pause-a-flow-run">Pause a flow run</h4>
+<p><code>smake -p -f example-yosys-syn</code></p>
+<pre><code>Flow example-yosys-syn paused
+</code></pre>
+<h4 id="unpause-a-flow-run">Unpause a flow run</h4>
+<p><code>smake -up -f example-yosys-syn</code></p>
+<pre><code>Flow example-yosys-syn unpaused
+</code></pre>
+<h4 id="abortkill-a-named-flow-run">Abort/kill a (named) flow run</h4>
+<p><code>smake -k -f example-yosys-syn -fr NAMED_RUN</code></p>
+<pre><code>Failing step openroad-yosys-synthesis-1692309880919 ...
+Flow example-yosys-syn paused
+</code></pre>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../step-building/" class="btn btn-neutral float-left" title="Step Building"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../metrics/" class="btn btn-neutral float-right" title="Metrics">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../dashboards/" class="btn btn-neutral float-right" title="Dashboards">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -144,7 +404,7 @@
       <span><a href="../step-building/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../metrics/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../dashboards/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

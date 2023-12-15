@@ -63,8 +63,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../cli/">CLI</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../metrics/">Metrics</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../dashboards/">Dashboards</a>
                   </li>
               </ul>
@@ -74,11 +72,9 @@
     <ul class="current">
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation Guide</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../infrastructure/">Infrastructure</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../debug-tools/">Debug Tools</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../admin-tools/">Admin Tools</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">About</span></p>
@@ -113,12 +109,18 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="installing-updates">Installing Updates</h1>
+<p>Installing updates to the platform's services is very easy. Log into the CAD server and run:</p>
+<pre><code class="language-sh">cd /silimate/platform-k8s/
+sudo make recreate-ecr-secret
+sudo make redeploy
+</code></pre>
+<p>This will fetch the latest Docker containers for the platform and deploy them on Kubernetes.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../dashboards/" class="btn btn-neutral float-left" title="Dashboards"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../installation/" class="btn btn-neutral float-right" title="Installation Guide">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../infrastructure/" class="btn btn-neutral float-right" title="Infrastructure">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -144,7 +146,7 @@
       <span><a href="../dashboards/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../installation/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../infrastructure/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

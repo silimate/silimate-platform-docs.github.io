@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://docs.silimate.com/debug-tools/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://docs.silimate.com/admin-tools/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Debug Tools - Silimate Platform</title>
+    <title>Admin Tools - Silimate Platform</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Debug Tools";
-        var mkdocs_page_input_path = "debug-tools.md";
-        var mkdocs_page_url = "/debug-tools/";
+        var mkdocs_page_name = "Admin Tools";
+        var mkdocs_page_input_path = "admin-tools.md";
+        var mkdocs_page_url = "/admin-tools/";
       </script>
     
     <!--[if lt IE 9]>
@@ -63,8 +63,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../cli/">CLI</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../metrics/">Metrics</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../dashboards/">Dashboards</a>
                   </li>
               </ul>
@@ -72,12 +70,16 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../installing-updates/">Installing Updates</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation Guide</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../infrastructure/">Infrastructure</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Debug Tools</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Admin Tools</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#kubernetes-dashboard">Kubernetes Dashboard</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#platform-dashboard-native-mode">Platform Dashboard (Native Mode)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#platform-flow-engine-admin-suite">Platform Flow Engine Admin Suite</a>
+    </li>
     </ul>
                   </li>
               </ul>
@@ -103,7 +105,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Advanced/Debug</li>
-      <li class="breadcrumb-item active">Debug Tools</li>
+      <li class="breadcrumb-item active">Admin Tools</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -112,7 +114,27 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="debug-tools">Debug Tools</h1>
+                <h1 id="administration-tools">Administration Tools</h1>
+<p>Silimate provides three administration tools in the web interface to debug issues with its components. These tools are accessible in the top-right corner dropdown menu:</p>
+<ol>
+<li>Kubernetes dashboard</li>
+<li>Platform dashboard native</li>
+<li>Platform flow engine administration</li>
+</ol>
+<p>For more details on how to operate these administration tools, please contact support via Slack/<a href="mailto:contact@silimate.com">email</a>.</p>
+<p><img alt="Administration Tools" src="../img/admin.png" /></p>
+<h2 id="kubernetes-dashboard">Kubernetes Dashboard</h2>
+<p>By default, a no-authentication <a href="https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/">Kubernetes Dashboard</a> is deployed to the Kubernetes cluster for monitoring/debugging. This dashboard can also be accessed at <a href="http://localhost/k8s">http://localhost/k8s</a>. The password prompt can be skipped:</p>
+<p><img alt="Kubernetes Dashboard" src="../img/k8s-dash-prompt.png" /></p>
+<p>Clicking "Skip" should lead to the Kubernetes Dashboard, with all the configuration displayed properly:</p>
+<p><img alt="Kubernetes Dashboard" src="../img/k8s-dash.png" /></p>
+<h2 id="platform-dashboard-native-mode">Platform Dashboard (Native Mode)</h2>
+<p>To dive into the <a href="https://grafana.com/">Grafana</a> instance for deeper dashboard access, you can navigate to <a href="http://localhost/dash">http://localhost/dash</a>:</p>
+<p><img alt="Grafana" src="../img/grafana.png" /></p>
+<p>See the <a href="https://grafana.com/">Grafana website</a> for more details.</p>
+<h2 id="platform-flow-engine-admin-suite">Platform Flow Engine Admin Suite</h2>
+<p>To dive into the flow scheduler/webserver, you can navigate to <a href="http://localhost/flow">http://localhost/flow</a>. The username is <code>silimate</code> and the password is <code>Silimate1234%4321etamiliS</code> if required.</p>
+<p><img alt="Flow" src="../img/flow.png" /></p>
               
             </div>
           </div><footer>

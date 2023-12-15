@@ -6,6 +6,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://docs.silimate.com/admin-tools/</loc>
+         <lastmod>2023-12-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://docs.silimate.com/built-in-steps/</loc>
          <lastmod>2023-12-15</lastmod>
          <changefreq>daily</changefreq>
@@ -17,11 +22,6 @@
     </url>
     <url>
          <loc>https://docs.silimate.com/dashboards/</loc>
-         <lastmod>2023-12-15</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://docs.silimate.com/debug-tools/</loc>
          <lastmod>2023-12-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -41,17 +41,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.silimate.com/installation/</loc>
-         <lastmod>2023-12-15</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://docs.silimate.com/installing-updates/</loc>
-         <lastmod>2023-12-15</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://docs.silimate.com/metrics/</loc>
          <lastmod>2023-12-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
