@@ -22,6 +22,14 @@
     <![endif]-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
       <script>hljs.highlightAll();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWC1C1TJLX"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', "G-QWC1C1TJLX");
+      </script>
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -47,28 +55,57 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Flow Management</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#terminology">Terminology</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#home-page-flow-summary">Home Page: Flow Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#running-a-flow">Running a Flow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-logs">Task Logs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-statuses">Task Statuses</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pausing-a-flow">Pausing a Flow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#aborting-a-flow">Aborting a Flow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#getting-the-results-of-a-flow-step">Getting the Results of a Flow Step</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#rerunning-flow-steps">Rerunning Flow Steps</a>
+    </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="" href="../flow-building.md">Flow Building</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../flow-building/">Flow Building</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="../built-in-steps.md">Built-In Steps</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../built-in-steps/">Built-In Steps</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="../step-building.md">Step Building</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../step-building/">Step Building</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="../cli.md">CLI</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../cli/">CLI</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="../dashboards.md">Dashboards</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../metrics/">Metrics</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../dashboards/">Dashboards</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Advanced</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="" href="../installation.md">Installation</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="../infrastructure.md">Infrastructure</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../infrastructure/">Infrastructure</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="../debug-tools.md">Debug Tools</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../debug-tools/">Debug Tools</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="../architecture.md">Architecture</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../architecture/">Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../installing-updates/">Installing Updates</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">About</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="https://www.silimate.com">Silimate Website</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://silimate.github.io/privacy-policy/privacy-policy.html">Privacy Policy</a>
                   </li>
               </ul>
       </div>
@@ -96,11 +133,66 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="flow-management">Flow Management</h1>
+<p>In this section, we will discuss how to manage and run existing flows on the Silimate Platform via the web interface. CLI flow management is discussed at <a href="../cli/">CLI</a>.</p>
+<h2 id="terminology">Terminology</h2>
+<p>Below are the most important terms to be aware of when using the platform:</p>
+<ul>
+<li><strong>Flow:</strong> A directed acyclic graph (DAG) describing the set of steps that happen and the dependencies between them</li>
+<li><strong>Flow Run:</strong> A particular execution of the flow, where each step is scheduled then executed</li>
+<li><strong>Active Flow:</strong> The currently selected flow</li>
+<li><strong>Active Flow Run:</strong> The currently selected flow run</li>
+<li><strong>Step:</strong> A function or set of functions, typically within one tool, that needs to happen in a flow</li>
+<li><strong>Task:</strong> A particular execution of a step</li>
+<li><strong>Flow Builder:</strong> Page where you can build, run, and monitor flows</li>
+</ul>
+<h2 id="home-page-flow-summary">Home Page: Flow Summary</h2>
+<p><img alt="Flow summary" src="../img/gui.png" /></p>
+<p>The home page yields a flow summary table, with the flow name, when the last run occurred, the status of all flow runs, and the status of all tasks. For each flow, there is also a set of three actions:</p>
+<ol>
+<li><strong>Make flow active:</strong> change active flow to be set to flow name associated with row</li>
+<li><strong>Trigger flow:</strong> kick off a new flow run</li>
+<li><strong>Reset flow:</strong> delete all information on prior flow runs</li>
+</ol>
+<p>NOTE: "Reset Flow" button does not <em>delete</em> the flow in question. To delete a flow, see <a href="../flow-building/#deleting-a-flow">Deleting a Flow</a>.</p>
+<h2 id="running-a-flow">Running a Flow</h2>
+<p>From the web interface, flows can be run in one of two ways:</p>
+<ol>
+<li>Trigger a flow run on home page</li>
+<li>Navigate to "Flow Builder" in the side bar and click "Fresh run" at the top</li>
+</ol>
+<p><img alt="Running a flow" src="../img/flowbuilder-run.png" /></p>
+<p>After running a flow, you can view each task and its dependencies/status in the "Flow Builder" page. Dependencies are shown as lines between outputs of one step and inputs of another.</p>
+<h2 id="task-logs">Task Logs</h2>
+<p>Tasks typically run in a container. On the "Flow Builder" page, logs of a task from its container can be viewed by first clicking to select a task, then clicking the "View Logs" bar at the bottom. The blue button on the far right of the "View Logs" bar can be used to open the logs in a new window.</p>
+<p><img alt="Task logs" src="../img/task-logs-gui.png" /></p>
+<h2 id="task-statuses">Task Statuses</h2>
+<ul>
+<li><strong>undefined:</strong> flow run has not been initiated</li>
+<li><strong>null:</strong> flow run has been initiated, but task has not been scheduled yet</li>
+<li><strong>scheduled:</strong> task's dependencies have been met and task has been scheduled to run, but task is not queued yet</li>
+<li><strong>queued:</strong> task has been assigned to an execution slot and is awaiting a worker</li>
+<li><strong>running:</strong> task is running</li>
+<li><strong>success:</strong> task completed with non-error return code (caveat: might not have completed successfully!)</li>
+<li><strong>failed:</strong> task completed with return code</li>
+<li><strong>upstream_failed:</strong> one of the task's upstream dependencies did not complete successfully, so task will not run</li>
+</ul>
+<h2 id="pausing-a-flow">Pausing a Flow</h2>
+<p>Flows can be paused by clicking the "Pause" button in the top panel of the flow builder.
+Pausing a flow will <em>not</em> kill running tasks. It will not queue any new tasks; tasks will
+remain in the <code>null</code> or <code>scheduled</code> state. Flows can be unpaused by clicking the button again.</p>
+<h2 id="aborting-a-flow">Aborting a Flow</h2>
+<p>Aborting a flow will pause a flow and additionally mark any running/scheduled tasks as <code>failed</code>. This will effectively kill the flow run.</p>
+<h2 id="getting-the-results-of-a-flow-step">Getting the Results of a Flow Step</h2>
+<p>Each flow step produces output collateral. This output collateral is available on the CAD server at path <code>/silimate/build/&lt;flow_name&gt;/&lt;step_name&gt;/outputs/</code>.
+This output collateral can also be downloaded by right-clicking on a step and clicking "Access Outputs".</p>
+<h2 id="rerunning-flow-steps">Rerunning Flow Steps</h2>
+<p>To rerun a step, right-click on the step and click Run from the dropdown menu. You will have the option to rerun the up/downstream components in addition. You can also clear a flow step or mark it as failed. You can use "Mark as Failed" to "run up to" a certain step, by marking the steps after it as failed. </p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../flow-building/" class="btn btn-neutral float-right" title="Flow Building">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -125,6 +217,8 @@
     
       <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
     
+    
+      <span><a href="../flow-building/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

@@ -22,6 +22,14 @@
     <![endif]-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
       <script>hljs.highlightAll();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWC1C1TJLX"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', "G-QWC1C1TJLX");
+      </script>
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -65,26 +73,37 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="flow-management/">Flow Management</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="flow-building.md">Flow Building</a>
+                  <li class="toctree-l1"><a class="reference internal" href="flow-building/">Flow Building</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="built-in-steps.md">Built-In Steps</a>
+                  <li class="toctree-l1"><a class="reference internal" href="built-in-steps/">Built-In Steps</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="step-building.md">Step Building</a>
+                  <li class="toctree-l1"><a class="reference internal" href="step-building/">Step Building</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="cli.md">CLI</a>
+                  <li class="toctree-l1"><a class="reference internal" href="cli/">CLI</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="dashboards.md">Dashboards</a>
+                  <li class="toctree-l1"><a class="reference internal" href="metrics/">Metrics</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="dashboards/">Dashboards</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Advanced</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="" href="installation.md">Installation</a>
+                  <li class="toctree-l1"><a class="reference internal" href="installation/">Installation</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="infrastructure.md">Infrastructure</a>
+                  <li class="toctree-l1"><a class="reference internal" href="infrastructure/">Infrastructure</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="debug-tools.md">Debug Tools</a>
+                  <li class="toctree-l1"><a class="reference internal" href="debug-tools/">Debug Tools</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="architecture.md">Architecture</a>
+                  <li class="toctree-l1"><a class="reference internal" href="architecture/">Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="installing-updates/">Installing Updates</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">About</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="https://www.silimate.com">Silimate Website</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://silimate.github.io/privacy-policy/privacy-policy.html">Privacy Policy</a>
                   </li>
               </ul>
       </div>
@@ -113,7 +132,7 @@
                 <h1 id="welcome-to-silimate-platform-docs">Welcome to Silimate Platform Docs</h1>
 <p>This is the documentation website for the Silimate Platform. For any questions, comments, or concerns, please contact support via Slack/<a href="mailto:contact@silimate.com">email</a>.</p>
 <h2 id="quick-setup-web-gui">Quick Setup: Web GUI</h2>
-<p>Silimate Platform should be already installed and properly running on your CAD server. If it is not, see <a href="installation.md">Installation</a> and/or <a href="infrastructure.md">Infrastructure</a>, or contact support.</p>
+<p>Silimate Platform should be already installed and properly running on your CAD server. If it is not, see <a href="installation/">Installation</a> and/or <a href="infrastructure/">Infrastructure</a>, or contact support.</p>
 <h3 id="port-forwarding-recommended">Port forwarding (recommended)</h3>
 <p>To access the GUI on your local machine, you need to provide an SSH tunnel into the CAD server with <em>port forwarding</em>. To do this, add the argument <code>-L 80:192.168.49.2:80</code> to your <code>ssh</code> command, for example:</p>
 <pre><code class="language-sh">sudo ssh -Y -i testing_ec2.pem -L 80:192.168.49.2:80 ec2-user@ec2-XX-XX-X-XXX.us-west-2.compute.amazonaws.com
@@ -125,7 +144,7 @@
 <p>Assuming you have X11 forwarding/VNC setup between your local machine and the CAD server, you may simply open a remote browser session (e.g., <code>firefox</code>) and navigate to <a href="http://192.168.49.2">http://192.168.49.2</a>.</p>
 <p>NOTE: this approach may be less responsive than port forwarding.</p>
 <h2 id="quick-setup-cli">Quick Setup: CLI</h2>
-<p>Silimate Platform should be already installed and properly running on your CAD server. If it is not, see <a href="installation.md">Installation</a> and/or <a href="infrastructure.md">Infrastructure</a>, or contact support.</p>
+<p>Silimate Platform should be already installed and properly running on your CAD server. If it is not, see <a href="installation/">Installation</a> and/or <a href="infrastructure/">Infrastructure</a>, or contact support.</p>
 <h3 id="cad-server-setup">CAD Server Setup</h3>
 <ul>
 <li>Ensure <code>requests</code> library for <code>python3</code> is installed:</li>
@@ -227,5 +246,5 @@ gcd-genus-syn-step (active)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-12-14 10:15:40.848797+00:00
+Build Date UTC : 2023-12-15 04:52:42.231392+00:00
 -->
