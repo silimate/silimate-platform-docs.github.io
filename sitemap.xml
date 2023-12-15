@@ -6,11 +6,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.silimate.com/architecture/</loc>
-         <lastmod>2023-12-15</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://docs.silimate.com/built-in-steps/</loc>
          <lastmod>2023-12-15</lastmod>
          <changefreq>daily</changefreq>

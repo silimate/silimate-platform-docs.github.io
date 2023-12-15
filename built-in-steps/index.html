@@ -77,15 +77,13 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#cadence-genus-flow-setup">Cadence Genus Flow Setup</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cadence-genus-synthesis-flow">Cadence Genus Synthesis Flow</a>
-    </li>
     <li class="toctree-l3"><a class="reference internal" href="#cadence-genus-generic-synth">Cadence Genus Generic Synth</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#cadence-genus-tech-mapping">Cadence Genus Tech Mapping</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cadence-genus-synth-metrics">Cadence Genus Synth Metrics</a>
-    </li>
     <li class="toctree-l3"><a class="reference internal" href="#cadence-genus-synthesis-opt">Cadence Genus Synthesis Opt</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cadence-genus-synthesis-flow">Cadence Genus Synthesis Flow</a>
     </li>
         </ul>
     </li>
@@ -117,8 +115,6 @@
                   <li class="toctree-l1"><a class="reference internal" href="../infrastructure/">Infrastructure</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../debug-tools/">Debug Tools</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../architecture/">Architecture</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">About</span></p>
@@ -152,24 +148,38 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="built-in-steps-descriptions">Built-In Steps: Descriptions</h1>
+                <h1 id="built-in-steps">Built-In Steps</h1>
+<p>Below, we provide description of Silimate's qualified commercial tool steps.</p>
 <h2 id="inputs">Inputs</h2>
-<p>Input steps have mappings.</p>
-<p><PICTURE></p>
+<p>Input steps provide a way to get flow input files (e.g., designs, testbenches, configuration) into the flow. They work by providing mappings between input paths (in a git repository or on disk) and "aliases" (the names to call these files/directories inside the flow). These mappings can be added/removed by double-clicking the input node once dragged into the flow. The number of input handles can be increased/decreased as desired. Handles with the appropriate file/directory names are populated on the node in the flow builder once the dialog box is confirmed.</p>
 <h3 id="files-from-git">File(s) from Git</h3>
+<p><img alt="File(s) from Git screenshot" src="../img/input-files-from-git.png" /></p>
+<p>This step allows you to specify a git URL, branch, clone depth, and commit hash/tag to fetch files from. This step is recommended for situations where you want to integrate a particular version-controlled snapshot of some files/directories. It is also recommended when you want to perform flow runs with the latest changes to the flow inputs.</p>
 <h3 id="files-from-disk">File(s) from Disk</h3>
+<p><img alt="File(s) from Disk screenshot" src="../img/input-files-from-disk.png" /></p>
+<p>This step allows you to specify location on the CAD server's disk. This step is recommended for situations where you have a static file on disk that needs to be integrated. If the file is version-controlled on disk, we recommend using <a href="#files-from-git">File(s) from Git</a> if possible.</p>
 <h2 id="pdk-setup">PDK Setup</h2>
+<p>PDK setup nodes provide scripts to set design variables and paths to use a particular PDK.</p>
 <h3 id="tsmc22-arm-pdk-setup">TSMC22 ARM PDK Setup</h3>
+<p>This PDK setup node provides <code>constraint_modes.ref.tcl</code>, which is a reference for how constraint modes should be set up for a simple design. It also provides the <code>mmmc_config.pdk.tcl</code> which specifies paths to use for loading the PDK in multi-mode multi-corner (MMMC) mode.</p>
 <h2 id="logic-synthesis">Logic Synthesis</h2>
+<p>Logic synthesis using Cadence Genus can be run in two ways: step-at-a-time or all-in-one. To use the step-at-a-time approach, use <a href="#cadence-genus-flow-setup">Flow Setup</a> -&gt; <a href="#cadence-genus-generic-synth">Generic Synth</a> -&gt; <a href="#cadence-genus-tech-mapping">Tech Mapping</a> -&gt; <a href="#cadence-genus-synthesis-opt">Synthesis Opt</a>. To use the all-in-one approach, use <a href="#cadence-genus-flow-setup">Flow Setup</a> -&gt; <a href="#cadence-genus-synthesis-flow">Synthesis Flow</a>.</p>
 <h3 id="cadence-genus-flow-setup">Cadence Genus Flow Setup</h3>
-<h3 id="cadence-genus-synthesis-flow">Cadence Genus Synthesis Flow</h3>
+<p>Generates the flow template and populates the flow scripts, allowing PDK integration and overrides for default flow settings (via <code>config/</code> input). Outputs are <code>config/</code> (configuration scripts), <code>flow/</code> (reference methodology flow scripts), and a log file.</p>
 <h3 id="cadence-genus-generic-synth">Cadence Genus Generic Synth</h3>
+<p>Takes constraints and RTL and performs synthesis to generics (pre-technology mapped cells).</p>
 <h3 id="cadence-genus-tech-mapping">Cadence Genus Tech Mapping</h3>
-<h3 id="cadence-genus-synth-metrics">Cadence Genus Synth Metrics</h3>
+<p>Takes generic synth DB and performs technology mapping using PDK cells.</p>
 <h3 id="cadence-genus-synthesis-opt">Cadence Genus Synthesis Opt</h3>
+<p>Takes tech mapped DB and performs logic optimization.</p>
+<h3 id="cadence-genus-synthesis-flow">Cadence Genus Synthesis Flow</h3>
+<p>Performs the above three steps in one.</p>
 <h2 id="logsmetrics">Logs/Metrics</h2>
+<p>Collecting and reporting logs/metrics is done explicitly, by calling the respective APIs through a flow step. The log/metric APIs are described in more detail in <a href="../metrics/">Metrics</a>.</p>
 <h3 id="cadence-metrics">Cadence Metrics</h3>
+<p>This step takes Cadence flow-generated <code>metrics.csv</code> and <code>metrics.json</code> and puts them in the metrics database.</p>
 <h3 id="import-logs-to-database">Import Logs to Database</h3>
+<p>This step puts each line of a log file into the log database.</p>
               
             </div>
           </div><footer>
