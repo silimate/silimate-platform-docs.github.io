@@ -57,6 +57,30 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Flow Building</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#philosophy">Philosophy</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#flow-building-web">Flow Building (Web)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#create-new-flow">Create New Flow</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#saving-a-flow">Saving a Flow</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-library">Step Library</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#connecting-step-dependencies">Connecting Step Dependencies</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#parametrized-steps">Parametrized Steps</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#advanced-flow-building-flow-files">Advanced: Flow Building (Flow Files)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#flow-nameflow">&lt;flow-name&gt;.flow</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#flow-namepos">&lt;flow-name&gt;.pos</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../built-in-steps/">Built-In Steps</a>
@@ -70,17 +94,17 @@
                   <li class="toctree-l1"><a class="reference internal" href="../dashboards/">Dashboards</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Advanced</span></p>
+              <p class="caption"><span class="caption-text">Advanced/Debug</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../installing-updates/">Installing Updates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation Guide</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../infrastructure/">Infrastructure</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../debug-tools/">Debug Tools</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../architecture/">Architecture</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../installing-updates/">Installing Updates</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">About</span></p>
@@ -115,6 +139,167 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="flow-building">Flow Building</h1>
+<p>Here, we will discuss building a flow from discrete steps and connecting dependencies to get everything working.</p>
+<h2 id="philosophy">Philosophy</h2>
+<p>Flows are composed of a series of steps that can be parametrized. Steps have file/directory inputs, and perform computation on these to yield file/directory outputs that can be routed to other step inputs to form a directed acyclic graph (DAG).</p>
+<p>Silimate aims to provide a toolbox with the most common EDA tool functionalities encapsulated cleanly. It aims for "separation of concerns," splitting design-specific, PDK-specific, and tool-specific settings into different modules to allow for maximal flow reuse. With this toolbox, simple flows can be quickly constructed and executed, while capturing metrics and design collateral cleanly.</p>
+<h2 id="flow-building-web">Flow Building (Web)</h2>
+<p>We will start with a guide on flow building from the web interface. A description of the generated flow JSON files is in <a href="#advanced-flow-building-flow-files">Advanced: Flow Building (Flow Files)</a>. These JSON-based flow files can be developed programmatically as needed for dynamic flow behavior.</p>
+<p><img alt="Flow Building Stuff" src="../img/flow-stuff.png" /></p>
+<h3 id="create-new-flow">Create New Flow</h3>
+<p>To create a new flow, click on "+ Create New" in the navigation bar. Select "Flow" from the dropdown menu. See screenshot above.</p>
+<h3 id="saving-a-flow">Saving a Flow</h3>
+<p>Use the "Save flow" button in the top panel to save.</p>
+<h3 id="step-library">Step Library</h3>
+<p>The step library is located as a panel on the left-hand side of the flow builder. See screenshot above.</p>
+<p>Steps are grouped by function based on which EDA stage they are related to. You can click to see which steps are in each category, then drag and drop desired steps onto the flow to create step nodes.</p>
+<p>Descriptions of the built-in steps are in <a href="../built-in-steps/">Built-In Step Descriptions</a>.</p>
+<h3 id="connecting-step-dependencies">Connecting Step Dependencies</h3>
+<p>Drag an edge between an output of one step X and an input of another step Y to define a file/directory dependency from step X to Y.</p>
+<p>If the file names between steps are exactly the same, you can also right-click on a cell which has missing edges and click on "Autoconnect Inputs" shortcut to save time. This will try to automatically infer and add edges based on common names between steps.</p>
+<h3 id="parametrized-steps">Parametrized Steps</h3>
+<p>Right-click and click on "Step Settings" to edit parameters of the step. Double clicking a step will also open the dialog box.</p>
+<p><img alt="Parameters of a Step" src="../img/parameters.png" /></p>
+<h2 id="advanced-flow-building-flow-files">Advanced: Flow Building (Flow Files)</h2>
+<p>The best way to understand the flow file structure is to look at one. Flows are located in <code>/silimate/flows/</code> directory (best practice is to version control this!) and consist of <code>&lt;flow-name&gt;.flow</code> and <code>&lt;flow-name&gt;.pos</code>.</p>
+<h3 id="flow-nameflow"><code>&lt;flow-name&gt;.flow</code></h3>
+<pre><code class="language-json">{
+  &quot;nodes&quot;: [
+    {
+      &quot;id&quot;: &quot;log-importer-1692309904268&quot;,
+      &quot;type&quot;: &quot;log-importer&quot;
+    },
+    {
+      &quot;id&quot;: &quot;openroad-metrics-1692309893709&quot;,
+      &quot;type&quot;: &quot;openroad-metrics&quot;
+    },
+    {
+      &quot;id&quot;: &quot;openroad-yosys-synthesis-1692309880919&quot;,
+      &quot;type&quot;: &quot;openroad-yosys-synthesis&quot;
+    },
+    {
+      &quot;data&quot;: {
+        &quot;git_branch&quot;: &quot;main&quot;,
+        &quot;git_clone_depth&quot;: &quot;1&quot;,
+        &quot;git_commit&quot;: &quot;HEAD&quot;,
+        &quot;git_url&quot;: &quot;https://github.com/silimate/designs&quot;,
+        &quot;inputMappings&quot;: {
+          &quot;constraint.sdc&quot;: &quot;gcd/constraint.sdc&quot;,
+          &quot;design.v&quot;: &quot;gcd/gcd.v&quot;
+        }
+      },
+      &quot;id&quot;: &quot;input-files-from-git-1692309848356&quot;,
+      &quot;type&quot;: &quot;input-files-from-git-1692309848356&quot;
+    }
+  ],
+  &quot;edges&quot;: [
+    {
+      &quot;id&quot;: &quot;autoconnect__openroad-metrics-1692309893709-synth_stat.rpt-openroad-yosys-synthesis-1692309880919-synth_stat.rpt&quot;,
+      &quot;source&quot;: &quot;openroad-yosys-synthesis-1692309880919&quot;,
+      &quot;sourceHandle&quot;: &quot;synth_stat.rpt&quot;,
+      &quot;target&quot;: &quot;openroad-metrics-1692309893709&quot;,
+      &quot;targetHandle&quot;: &quot;synth_stat.rpt&quot;
+    },
+    {
+      &quot;id&quot;: &quot;autoconnect__openroad-metrics-1692309893709-design.rpt-openroad-yosys-synthesis-1692309880919-design.rpt&quot;,
+      &quot;source&quot;: &quot;openroad-yosys-synthesis-1692309880919&quot;,
+      &quot;sourceHandle&quot;: &quot;design.rpt&quot;,
+      &quot;target&quot;: &quot;openroad-metrics-1692309893709&quot;,
+      &quot;targetHandle&quot;: &quot;design.rpt&quot;
+    },
+    {
+      &quot;id&quot;: &quot;autoconnect__openroad-yosys-synthesis-1692309880919-constraint.sdc-input-files-from-git-1692309848356-constraint.sdc&quot;,
+      &quot;source&quot;: &quot;input-files-from-git-1692309848356&quot;,
+      &quot;sourceHandle&quot;: &quot;constraint.sdc&quot;,
+      &quot;target&quot;: &quot;openroad-yosys-synthesis-1692309880919&quot;,
+      &quot;targetHandle&quot;: &quot;constraint.sdc&quot;
+    },
+    {
+      &quot;id&quot;: &quot;autoconnect__openroad-yosys-synthesis-1692309880919-src/-input-files-from-git-1692309848356-design.v&quot;,
+      &quot;source&quot;: &quot;input-files-from-git-1692309848356&quot;,
+      &quot;sourceHandle&quot;: &quot;design.v&quot;,
+      &quot;target&quot;: &quot;openroad-yosys-synthesis-1692309880919&quot;,
+      &quot;targetHandle&quot;: &quot;src/&quot;
+    },
+    {
+      &quot;id&quot;: &quot;reactflow__edge-openroad-yosys-synthesis-16923098809191_1_yosys.log-log-importer-1692309904268&lt;inherit&gt;.log&quot;,
+      &quot;source&quot;: &quot;openroad-yosys-synthesis-1692309880919&quot;,
+      &quot;sourceHandle&quot;: &quot;1_1_yosys.log&quot;,
+      &quot;target&quot;: &quot;log-importer-1692309904268&quot;,
+      &quot;targetHandle&quot;: &quot;&lt;inherit&gt;.log&quot;
+    }
+  ]
+}
+</code></pre>
+<p>Above, you can see that the <code>.flow</code> file consists of a map with "nodes" and "edges." Nodes are steps and edges correspond to links between files/directories across two steps.</p>
+<p>A node has an "id" (a unique identifier for the step), a "type" (the step type), and "data" (the set of parameters associated with the step). Input steps also define a list of mappings between paths and file/directory names, more details can be found in <a href="../built-in-steps/#inputs">Input Steps</a>.</p>
+<p>An edge has an "id" (a unique identifier for the dependency), a "source" (step providing the dependency), a "sourceHandle" (output file/directory being provided), a "target" (step receiving the dependency), and a "targetHandle" (output )</p>
+<h3 id="flow-namepos"><code>&lt;flow-name&gt;.pos</code></h3>
+<pre><code class="language-json">{
+  &quot;nodes&quot;: [
+    {
+      &quot;width&quot;: 150,
+      &quot;height&quot;: 64,
+      &quot;id&quot;: &quot;log-importer-1692309904268&quot;,
+      &quot;position&quot;: {
+        &quot;x&quot;: 585,
+        &quot;y&quot;: 218
+      },
+      &quot;positionAbsolute&quot;: {
+        &quot;x&quot;: 585,
+        &quot;y&quot;: 218
+      }
+    },
+    {
+      &quot;width&quot;: 150,
+      &quot;height&quot;: 80,
+      &quot;id&quot;: &quot;openroad-metrics-1692309893709&quot;,
+      &quot;position&quot;: {
+        &quot;x&quot;: 586,
+        &quot;y&quot;: 326
+      },
+      &quot;positionAbsolute&quot;: {
+        &quot;x&quot;: 586,
+        &quot;y&quot;: 326
+      }
+    },
+    {
+      &quot;width&quot;: 150,
+      &quot;height&quot;: 176,
+      &quot;id&quot;: &quot;openroad-yosys-synthesis-1692309880919&quot;,
+      &quot;position&quot;: {
+        &quot;x&quot;: 350,
+        &quot;y&quot;: 200
+      },
+      &quot;positionAbsolute&quot;: {
+        &quot;x&quot;: 350,
+        &quot;y&quot;: 200
+      }
+    },
+    {
+      &quot;width&quot;: 150,
+      &quot;height&quot;: 80,
+      &quot;id&quot;: &quot;input-files-from-git-1692309848356&quot;,
+      &quot;position&quot;: {
+        &quot;x&quot;: 108,
+        &quot;y&quot;: 218
+      },
+      &quot;positionAbsolute&quot;: {
+        &quot;x&quot;: 108,
+        &quot;y&quot;: 218
+      }
+    }
+  ],
+  &quot;viewport&quot;: {
+    &quot;x&quot;: 7,
+    &quot;y&quot;: 42,
+    &quot;zoom&quot;: 1
+  }
+}
+</code></pre>
+<p>Above, you can see that the <code>.flow</code> file consists of a map with "nodes" and a "viewport."</p>
+<p>The "nodes" have the "id" (unique identifier of the step), {"width", "height"} (dimensions of the node), and {"position", "positionAbsolute"} (relative/absolute position of the node). The node dimensions and position are optional, as they are recomputed on load anyways.</p>
+<p>The "viewport" simply specifies the default zoom and target area.</p>
               
             </div>
           </div><footer>

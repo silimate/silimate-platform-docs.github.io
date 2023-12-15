@@ -50,6 +50,8 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#philosophies">Philosophies</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#quick-setup-web-gui">Quick Setup: Web GUI</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#port-forwarding-recommended">Port forwarding (recommended)</a>
@@ -86,17 +88,17 @@
                   <li class="toctree-l1"><a class="reference internal" href="dashboards/">Dashboards</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Advanced</span></p>
+              <p class="caption"><span class="caption-text">Advanced/Debug</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="installation/">Installation</a>
+                  <li class="toctree-l1"><a class="reference internal" href="installing-updates/">Installing Updates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="installation/">Installation Guide</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="infrastructure/">Infrastructure</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="debug-tools/">Debug Tools</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="architecture/">Architecture</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="installing-updates/">Installing Updates</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">About</span></p>
@@ -131,8 +133,24 @@
               
                 <h1 id="welcome-to-silimate-platform-docs">Welcome to Silimate Platform Docs</h1>
 <p>This is the documentation website for the Silimate Platform. For any questions, comments, or concerns, please contact support via Slack/<a href="mailto:contact@silimate.com">email</a>.</p>
+<h2 id="philosophies">Philosophies</h2>
+<ul>
+<li><strong>Dependencies should be managed properly:</strong> ensure dependencies are met before running something<ul>
+<li><em>Inputs:</em> (1) Tool and version, (2) Tool settings/knobs (3) Design collateral, (4) Script template</li>
+<li><em>Outputs:</em> (1) Design collateral, (2) Log(s), (3) Metrics</li>
+<li>Logs and metrics are automatically warehoused</li>
+<li>Settings/knobs can be overridden as needed</li>
+</ul>
+</li>
+<li><strong>Intuitive user interfaces are important:</strong> build tools that follow good design principles, so EDA engineers love to use them. Provide intuitive GUI and CLI</li>
+<li><strong>Don't overcomplicate:</strong> most people have simple needs. Either don't implement or hide features that people don't use often</li>
+<li><strong>Foundry-independence:</strong> link foundry files once, auto-reference in each tool</li>
+<li><strong>Vendor-independence:</strong> not linked to any vendor-specific flow</li>
+<li><strong>Transparency:</strong> users should be able to see what is going on under the hood to debug</li>
+<li><strong>Separation of concerns:</strong> tool settings and scripts can be overridden, where <em>USER</em> overrides <em>DESIGN</em> overrides <em>TECH</em> overrides <em>TOOL</em></li>
+</ul>
 <h2 id="quick-setup-web-gui">Quick Setup: Web GUI</h2>
-<p>Silimate Platform should be already installed and properly running on your CAD server. If it is not, see <a href="installation/">Installation</a> and/or <a href="infrastructure/">Infrastructure</a>, or contact support.</p>
+<p>Silimate Platform should be already installed and properly running on your CAD server. If it is not, see <a href="installation/">Installation</a> and/or <a href="infrastructure/">Infrastructure</a>, or contact support via Slack/<a href="mailto:contact@silimate.com">email</a>.</p>
 <h3 id="port-forwarding-recommended">Port forwarding (recommended)</h3>
 <p>To access the GUI on your local machine, you need to provide an SSH tunnel into the CAD server with <em>port forwarding</em>. To do this, add the argument <code>-L 80:192.168.49.2:80</code> to your <code>ssh</code> command, for example:</p>
 <pre><code class="language-sh">sudo ssh -Y -i testing_ec2.pem -L 80:192.168.49.2:80 ec2-user@ec2-XX-XX-X-XXX.us-west-2.compute.amazonaws.com
@@ -142,9 +160,9 @@
 <p><img alt="Web GUI on local machine via port forwarding" src="img/gui.png" /></p>
 <h3 id="x11-forwardingvnc">X11 forwarding/VNC</h3>
 <p>Assuming you have X11 forwarding/VNC setup between your local machine and the CAD server, you may simply open a remote browser session (e.g., <code>firefox</code>) and navigate to <a href="http://192.168.49.2">http://192.168.49.2</a>.</p>
-<p>NOTE: this approach may be less responsive than port forwarding.</p>
+<p>NOTE: this approach will likely be less responsive than port forwarding, hence not recommended.</p>
 <h2 id="quick-setup-cli">Quick Setup: CLI</h2>
-<p>Silimate Platform should be already installed and properly running on your CAD server. If it is not, see <a href="installation/">Installation</a> and/or <a href="infrastructure/">Infrastructure</a>, or contact support.</p>
+<p>Silimate Platform should be already installed and properly running on your CAD server. If it is not, see <a href="installation/">Installation</a> and/or <a href="infrastructure/">Infrastructure</a>, or contact support via Slack/<a href="mailto:contact@silimate.com">email</a>.</p>
 <h3 id="cad-server-setup">CAD Server Setup</h3>
 <ul>
 <li>Ensure <code>requests</code> library for <code>python3</code> is installed:</li>
@@ -246,5 +264,5 @@ gcd-genus-syn-step (active)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-12-15 04:52:42.231392+00:00
+Build Date UTC : 2023-12-15 08:54:27.177941+00:00
 -->

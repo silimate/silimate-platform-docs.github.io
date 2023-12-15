@@ -60,18 +60,22 @@
     <li class="toctree-l2"><a class="reference internal" href="#home-page-flow-summary">Home Page: Flow Summary</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#running-a-flow">Running a Flow</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#task-logs">Task Logs</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#task-logs">Task Logs</a>
+    <li class="toctree-l3"><a class="reference internal" href="#task-statuses">Task Statuses</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#task-statuses">Task Statuses</a>
+    <li class="toctree-l3"><a class="reference internal" href="#pausing-a-flow">Pausing a Flow</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#pausing-a-flow">Pausing a Flow</a>
+    <li class="toctree-l3"><a class="reference internal" href="#aborting-a-flow">Aborting a Flow</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#aborting-a-flow">Aborting a Flow</a>
+        </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#getting-the-results-of-a-flow-step">Getting the Results of a Flow Step</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#rerunning-flow-steps">Rerunning Flow Steps</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#adjusting-the-view">Adjusting the View</a>
     </li>
     </ul>
                   </li>
@@ -88,17 +92,17 @@
                   <li class="toctree-l1"><a class="reference internal" href="../dashboards/">Dashboards</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Advanced</span></p>
+              <p class="caption"><span class="caption-text">Advanced/Debug</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../installing-updates/">Installing Updates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation Guide</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../infrastructure/">Infrastructure</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../debug-tools/">Debug Tools</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../architecture/">Architecture</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../installing-updates/">Installing Updates</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">About</span></p>
@@ -153,6 +157,7 @@
 <li><strong>Trigger flow:</strong> kick off a new flow run</li>
 <li><strong>Reset flow:</strong> delete all information on prior flow runs</li>
 </ol>
+<p>If there are errors in any flows causing them to be deemed invalid by the scheduler, the errors will be displayed here.</p>
 <p>NOTE: "Reset Flow" button does not <em>delete</em> the flow in question. To delete a flow, see <a href="../flow-building/#deleting-a-flow">Deleting a Flow</a>.</p>
 <h2 id="running-a-flow">Running a Flow</h2>
 <p>From the web interface, flows can be run in one of two ways:</p>
@@ -161,11 +166,12 @@
 <li>Navigate to "Flow Builder" in the side bar and click "Fresh run" at the top</li>
 </ol>
 <p><img alt="Running a flow" src="../img/flowbuilder-run.png" /></p>
-<p>After running a flow, you can view each task and its dependencies/status in the "Flow Builder" page. Dependencies are shown as lines between outputs of one step and inputs of another.</p>
-<h2 id="task-logs">Task Logs</h2>
+<p>After running a flow, you can view each task and its dependencies/status in the "Flow Builder" page. Dependencies are shown as lines between outputs of one step and inputs of another. Steps without dependencies will run in parallel wherever possible.</p>
+<p>When a flow is not running, little white dots will be visible on the flow builder panel. While running, these dots disappear.</p>
+<h3 id="task-logs">Task Logs</h3>
 <p>Tasks typically run in a container. On the "Flow Builder" page, logs of a task from its container can be viewed by first clicking to select a task, then clicking the "View Logs" bar at the bottom. The blue button on the far right of the "View Logs" bar can be used to open the logs in a new window.</p>
 <p><img alt="Task logs" src="../img/task-logs-gui.png" /></p>
-<h2 id="task-statuses">Task Statuses</h2>
+<h3 id="task-statuses">Task Statuses</h3>
 <ul>
 <li><strong>undefined:</strong> flow run has not been initiated</li>
 <li><strong>null:</strong> flow run has been initiated, but task has not been scheduled yet</li>
@@ -176,17 +182,19 @@
 <li><strong>failed:</strong> task completed with return code</li>
 <li><strong>upstream_failed:</strong> one of the task's upstream dependencies did not complete successfully, so task will not run</li>
 </ul>
-<h2 id="pausing-a-flow">Pausing a Flow</h2>
+<h3 id="pausing-a-flow">Pausing a Flow</h3>
 <p>Flows can be paused by clicking the "Pause" button in the top panel of the flow builder.
 Pausing a flow will <em>not</em> kill running tasks. It will not queue any new tasks; tasks will
 remain in the <code>null</code> or <code>scheduled</code> state. Flows can be unpaused by clicking the button again.</p>
-<h2 id="aborting-a-flow">Aborting a Flow</h2>
+<h3 id="aborting-a-flow">Aborting a Flow</h3>
 <p>Aborting a flow will pause a flow and additionally mark any running/scheduled tasks as <code>failed</code>. This will effectively kill the flow run.</p>
 <h2 id="getting-the-results-of-a-flow-step">Getting the Results of a Flow Step</h2>
 <p>Each flow step produces output collateral. This output collateral is available on the CAD server at path <code>/silimate/build/&lt;flow_name&gt;/&lt;step_name&gt;/outputs/</code>.
-This output collateral can also be downloaded by right-clicking on a step and clicking "Access Outputs".</p>
+This output collateral can also be downloaded as a <code>.zip</code> file by right-clicking on a step and clicking "Access Outputs."</p>
 <h2 id="rerunning-flow-steps">Rerunning Flow Steps</h2>
 <p>To rerun a step, right-click on the step and click Run from the dropdown menu. You will have the option to rerun the up/downstream components in addition. You can also clear a flow step or mark it as failed. You can use "Mark as Failed" to "run up to" a certain step, by marking the steps after it as failed. </p>
+<h2 id="adjusting-the-view">Adjusting the View</h2>
+<p>The view controls are in the bottom right corner. You can zoom in (+), zoom out (-), zoom to fit ([]), or lock the flow to prevent edits (lock button).</p>
               
             </div>
           </div><footer>
