@@ -61,7 +61,17 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Step Building</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#breakdown-of-configureyml">Breakdown of configure.yml</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#containerization-and-access-to-data-in-steps">Containerization and Access to Data in Steps</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#logmetrics-api">Log/Metrics API</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#posting-a-log-file">Posting a log file</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#posting-metrics">Posting metrics</a>
+    </li>
+        </ul>
     </li>
     </ul>
                   </li>
@@ -73,8 +83,6 @@
               <p class="caption"><span class="caption-text">Advanced/Debug</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../installing-updates/">Installing Updates</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../infrastructure/">Infrastructure</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../admin-tools/">Admin Tools</a>
                   </li>
@@ -111,7 +119,162 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="step-building">Step Building</h1>
+<p>Custom steps can be built in addition to the ones described in <a href="../built-in-steps/">Built-In Steps</a>. This can be done by placing a step specification in <code>/silimate/steps</code> on the CAD server.</p>
+<p>To create a new step, you can create a new directory <code>/silimate/steps/&lt;step_name&gt;/</code>. Inside of this directory, a file called <code>configure.yml</code> must exist. The contents of this file define the metadata, inputs, outputs, parameters, and commands of the step. Inputs are located at <code>/silimate/steps/&lt;step_name&gt;/inputs/</code>, outputs are located at <code>/silimate/steps/&lt;step_name&gt;/outputs/</code>, parameters are exposed as environment variables, and the commands to be executed are continuously shuffled into <code>/silimate/build/&lt;flow_name&gt;/&lt;step_name&gt;/silimate.sh</code>. Below is a prime example:</p>
+<pre><code class="language-yaml">#=========================================================================
+# Cadence Genus Flow Setup
+#=========================================================================
+# Author : Akash Levy
+# Date   : November 1, 2023
+#=========================================================================
+
+fullname: Cadence Genus Flow Setup
+category: Logic Synthesis
+description: Generate a Cadence Genus flow using Flowkit
+name: cadence-genus-flow-setup
+container: silimate/eda-docker:latest
+
+#-------------------------------------------------------------------------
+# Inputs and Outputs
+#-------------------------------------------------------------------------
+
+inputs:
+  - constraint_modes.tcl
+  - mmmc_config.pdk.tcl
+
+outputs:
+  - config/
+  - flow/
+  - setup_genus.log
+
+#-------------------------------------------------------------------------
+# Commands
+#-------------------------------------------------------------------------
+
+commands:
+  - echo Generating the MMMC config file...
+  - cp inputs/mmmc_config.pdk.tcl outputs/mmmc_config.tcl
+  - cat inputs/constraint_modes.tcl &gt;&gt; outputs/mmmc_config.tcl
+  - echo
+  - echo Generating the flow template...
+  - genus -no_gui -f START.tcl -log outputs/setup_genus.log
+  - echo
+  - echo Generating the design_config.tcl file...
+  - cp outputs/design_config.template outputs/design_config.tcl
+  - sed -i 's/read_physical/# read_physical/' outputs/design_config.tcl # TODO: add in physical synthesis support
+  - sed -i 's/&lt;&lt; PLACEHOLDER:\ PHYSICAL DATA LOAD OPTIONS &gt;&gt;/inputs\/design.def/' outputs/design_config.tcl
+  - sed -i 's/&lt;&lt; PLACEHOLDER:\ DESIGN HDL LOAD OPTIONS &gt;&gt;/\-f inputs\/rtl\/design.f/' outputs/design_config.tcl
+  - sed -i 's/&lt;&lt; PLACEHOLDER:\ ELABORATION OPTIONS &gt;&gt;/'&quot;$design&quot;'/' outputs/design_config.tcl
+  - sed -i 's/read_power_intent/# read_power_intent/' outputs/design_config.tcl # TODO: add in UPF support
+  - sed -i 's/&lt;&lt; PLACEHOLDER:\ POWER INTENT LOAD OPTIONS &gt;&gt;/inputs\/upf\/design.upf/' outputs/design_config.tcl
+  - echo
+  - echo Generating the flow_config.tcl file...
+  - cp outputs/flow_config.template outputs/flow_config.tcl
+  - echo
+  - echo Reorganizing outputs...
+  - mv outputs/run_flow.tcl outputs/flow/
+  - mkdir -p outputs/config/
+  - mv outputs/*_config.* outputs/config/
+
+#-------------------------------------------------------------------------
+# Parameters
+#-------------------------------------------------------------------------
+
+parameters:
+  design: top_design_name
+  features: dft_simple
+</code></pre>
+<p>Here is the <code>silimate.sh</code> file generated:</p>
+<pre><code class="language-bash">ln -sf $SILIMATE_BUILD_DIR/gcd-genus-syn/pdk-tsmc22-arm-setup-1699009592822/outputs/constraint_modes.ref.tcl $SILIMATE_BUILD_DIR/gcd-genus-syn/cadence-genus-flow-setup-1699496733809/inputs/constraint_modes.tcl
+ln -sf $SILIMATE_BUILD_DIR/gcd-genus-syn/pdk-tsmc22-arm-setup-1699009592822/outputs/mmmc_config.pdk.tcl $SILIMATE_BUILD_DIR/gcd-genus-syn/cadence-genus-flow-setup-1699496733809/inputs/mmmc_config.pdk.tcl
+export design=top_design_name
+export features=dft_simple
+export design=gcd
+export features=''
+echo Generating the MMMC config file...
+cp inputs/mmmc_config.pdk.tcl outputs/mmmc_config.tcl
+cat inputs/constraint_modes.tcl &gt;&gt; outputs/mmmc_config.tcl
+echo
+echo Generating the flow template...
+genus -no_gui -f START.tcl -log outputs/setup_genus.log
+echo
+echo Generating the design_config.tcl file...
+cp outputs/design_config.template outputs/design_config.tcl
+sed -i 's/read_physical/# read_physical/' outputs/design_config.tcl
+sed -i 's/&lt;&lt; PLACEHOLDER:\ PHYSICAL DATA LOAD OPTIONS &gt;&gt;/inputs\/design.def/' outputs/design_config.tcl
+sed -i 's/&lt;&lt; PLACEHOLDER:\ DESIGN HDL LOAD OPTIONS &gt;&gt;/\-f inputs\/rtl\/design.f/' outputs/design_config.tcl
+sed -i 's/&lt;&lt; PLACEHOLDER:\ ELABORATION OPTIONS &gt;&gt;/'&quot;$design&quot;'/' outputs/design_config.tcl
+sed -i 's/read_power_intent/# read_power_intent/' outputs/design_config.tcl
+sed -i 's/&lt;&lt; PLACEHOLDER:\ POWER INTENT LOAD OPTIONS &gt;&gt;/inputs\/upf\/design.upf/' outputs/design_config.tcl
+echo
+echo Generating the flow_config.tcl file...
+cp outputs/flow_config.template outputs/flow_config.tcl
+echo
+echo Reorganizing outputs...
+mv outputs/run_flow.tcl outputs/flow/
+mkdir -p outputs/config/
+</code></pre>
+<p>First, the dependencies are linked from other steps as needed. Next, parameters are exported into the environment. Finally, a sequence of commands is executed to transform the inputs in the <code>inputs/</code> directory to outputs in the <code>outputs/</code> directory.</p>
+<h2 id="breakdown-of-configureyml">Breakdown of <code>configure.yml</code></h2>
+<ul>
+<li><code>fullname</code>: proper title of step that is printed on the node in the web UI</li>
+<li><code>category</code>: what category of functionality the step has (categories can be added/removed by modifying <code>/silimate/steps/categories</code>)</li>
+<li><code>description</code>: a description of what the step does</li>
+<li><code>name</code>: name of the step (cannot include spaces)</li>
+<li><code>container</code>: (optional) which Docker container to use to run the commands--if missing, run on bare-metal, if possible</li>
+<li><code>inputs</code>: list of expected inputs in the <code>inputs/</code> directory, will appear as input handles on node</li>
+<li><code>outputs</code>: list of expected outputs in the <code>outputs/</code> directory, will appear as output handles on node</li>
+<li><code>commands</code>: list of commands to run to transform inputs into outputs</li>
+<li><code>parameters</code>: list of configuration knobs to modify the behavior of the tool according to what the user wants</li>
+</ul>
+<h2 id="containerization-and-access-to-data-in-steps">Containerization and Access to Data in Steps</h2>
+<p>When containers are instantiated, they receive read/write access to the <code>/silimate/</code> directory on the CAD server, read access to <code>/</code> on the CAD server (mounts at <code>/host</code> in container), read access to the PDK directory (mounts at <code>/pdk</code>). The file <code>/silimate/setup.sh</code> is always run to initialize the container. This script should be used to load all of the relevant CAD tools into the environment.</p>
 <h2 id="logmetrics-api">Log/Metrics API</h2>
+<p>Steps may add logs/metrics to the log/metrics warehouse, to be queried later. To do this, a RESTful API is available.</p>
+<h3 id="posting-a-log-file">Posting a log file</h3>
+<p>POST JSON data to <a href="http://localhost/api/logs">http://localhost/api/logs</a> such as follows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;flow&quot;: &quot;flow_name&quot;,
+    &quot;run&quot;: &quot;flow_run&quot;,
+    &quot;name&quot;: &quot;name_of_step_that_generated_the_logs&quot;,
+    &quot;time&quot;: &quot;seconds_since_epoch&quot;,
+    &quot;log&quot;: &quot;log_line_1&quot;
+  },
+  {
+    &quot;flow&quot;: &quot;flow_name&quot;,
+    &quot;run&quot;: &quot;flow_run&quot;,
+    &quot;name&quot;: &quot;name_of_step_that_generated_the_logs&quot;,
+    &quot;time&quot;: &quot;seconds_since_epoch&quot;,
+    &quot;log&quot;: &quot;log_line_2&quot;
+  }
+]
+</code></pre>
+<h3 id="posting-metrics">Posting metrics</h3>
+<p>POST JSON data to <a href="http://localhost/api/metrics">http://localhost/api/metrics</a> such as follows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;design_name&quot;: &quot;name_of_design&quot;,
+    &quot;flow&quot;: &quot;flow_name&quot;,
+    &quot;run&quot;: &quot;flow_run&quot;,
+    &quot;step&quot;: &quot;which_flow_step_the_metric_was_generated_by&quot;,
+    &quot;name&quot;: &quot;name_of_step_that_generated_the_logs&quot;,
+    &quot;time&quot;: &quot;seconds_since_epoch&quot;,
+    &quot;metric&quot;: &quot;metric_1_name&quot;,
+    &quot;value&quot;: 12.3456
+  },
+  {
+    &quot;design_name&quot;: &quot;name_of_design&quot;,
+    &quot;flow&quot;: &quot;flow_name&quot;,
+    &quot;run&quot;: &quot;flow_run&quot;,
+    &quot;step&quot;: &quot;which_flow_step_the_metric_was_generated_by&quot;,
+    &quot;name&quot;: &quot;name_of_step_that_generated_the_logs&quot;,
+    &quot;time&quot;: &quot;seconds_since_epoch&quot;,
+    &quot;metric&quot;: &quot;metric_2_name&quot;,
+    &quot;value&quot;: 12.3456
+  }
+]
+</code></pre>
               
             </div>
           </div><footer>
