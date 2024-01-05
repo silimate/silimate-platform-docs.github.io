@@ -222,6 +222,7 @@ mkdir -p outputs/config/
 <li><code>description</code>: a description of what the step does</li>
 <li><code>name</code>: name of the step (cannot include spaces)</li>
 <li><code>container</code>: (optional) which Docker container to use to run the commands--if missing, run on bare-metal, if possible</li>
+<li><code>trigger</code>: (optional) specify <code>all_done</code> as the value to run even if input dependencies are failing; often good for debug steps</li>
 <li><code>inputs</code>: list of expected inputs in the <code>inputs/</code> directory, will appear as input handles on node</li>
 <li><code>outputs</code>: list of expected outputs in the <code>outputs/</code> directory, will appear as output handles on node</li>
 <li><code>commands</code>: list of commands to run to transform inputs into outputs</li>

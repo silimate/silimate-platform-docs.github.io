@@ -149,6 +149,7 @@
 <h3 id="files-from-git">File(s) from Git</h3>
 <p><img alt="File(s) from Git screenshot" src="../img/input-files-from-git.png" /></p>
 <p>This step allows you to specify a git URL, branch, clone depth, and commit hash/tag to fetch files from. This step is recommended for situations where you want to integrate a particular version-controlled snapshot of some files/directories. It is also recommended when you want to perform flow runs with the latest changes to the flow inputs.</p>
+<p>NOTE: File(s) from Git will use the SSH keys specified in <code>/silimate/.ssh/</code> to fetch/pull the repository. Make sure the necessary keys are included in this directory.</p>
 <h3 id="files-from-disk">File(s) from Disk</h3>
 <p><img alt="File(s) from Disk screenshot" src="../img/input-files-from-disk.png" /></p>
 <p>This step allows you to specify location on the CAD server's disk. This step is recommended for situations where you have a static file on disk that needs to be integrated. If the file is version-controlled on disk, we recommend using <a href="#files-from-git">File(s) from Git</a> if possible.</p>
