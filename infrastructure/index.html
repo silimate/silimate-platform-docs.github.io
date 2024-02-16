@@ -129,16 +129,16 @@
 <p>Kubernetes is a tool to manage/deploy Docker containers that need to access each other and various resources, e.g., storage, disk, etc. It can run on a single server with <code>minikube</code>, which is a simple K8s implementation, or <code>kubeadm</code> for multi-node implementation.</p>
 <h3 id="proscons-of-k8s-and-docker">Pros/Cons of K8s and Docker</h3>
 <p>Pros:
-  - K8s makes it very easy to describe how infrastructure should be set up with K8s YAML files
-  - Docker provides isolation between tool libraries, environment variables, loaded modules, etc.
-  - K8s can prevent accidental write access to certain resources, e.g., host files outside of a given directory
-  - K8s can detect when services are down and try to recover them
-  - K8s can monitor service status and send email/Slack notifications when any microservice has a problem
-    - Otherwise, one service can die silently, making problems difficult to debug
-  - Very easy to receive updates, simply reload Docker containers</p>
+- K8s makes it very easy to describe how infrastructure should be set up with K8s YAML files
+- Docker provides isolation between tool libraries, environment variables, loaded modules, etc.
+- K8s can prevent accidental write access to certain resources, e.g., host files outside of a given directory
+- K8s can detect when services are down and try to recover them
+- K8s can monitor service status and send email/Slack notifications when any microservice has a problem
+  - Otherwise, one service can die silently, making problems difficult to debug
+- Very easy to receive updates, simply reload Docker containers</p>
 <p>Cons:
-  - Small (5-10%) overhead associated with containers
-  - Learning curve for developing infrastructure with K8s can be difficult</p>
+- Small (5-10%) overhead associated with containers
+- Learning curve for developing infrastructure with K8s can be difficult</p>
 <p>For the last "con", it should be noted that this difficulty applies mainly to application development. Once deployed, it tends to be fairly straightforward to manage services.</p>
 <h3 id="accessing-k8s">Accessing K8s</h3>
 <p>K8s can be accessed and administrated via a GUI by (1) navigating to the K8s platform and selecting Kubernetes in the top-right corner, or (2) connecting via an external K8s management tool on port 8443 (this port should be forwarded when SSHing into the host server).</p>
@@ -149,19 +149,19 @@
 <p>Below is a representation of the microservices and how they interplay with one another.</p>
 <p><img alt="Platform architecture" src="../img/architecture.png" /></p>
 <p>Inside of Kubernetes, there are several resources that describe the infrastructure. There is a single deployment called <code>silimate-platform-k8s-deployment</code> which instantiates a single pod containing five containers:
-  - <code>silimate-platform-frontend</code> which contains NGINX reverse proxy and the frontend service (on port )
-  - <code>silimate-platform-backend</code> which contains the backend API server
-  - <code>silimate-dashboard</code> which contains the Grafana dashboard with the necessary plugins
-  - <code>silimate-flow</code> which is instantiated twice, with one instance corresponding to the flow scheduler and the other to an API server which powers the CLI and the front-end</p>
+- <code>silimate-platform-frontend</code> which contains NGINX reverse proxy and the frontend service (on port )
+- <code>silimate-platform-backend</code> which contains the backend API server
+- <code>silimate-dashboard</code> which contains the Grafana dashboard with the necessary plugins
+- <code>silimate-flow</code> which is instantiated twice, with one instance corresponding to the flow scheduler and the other to an API server which powers the CLI and the front-end</p>
 <p>Besides the deployment, the Docker containers need access to various filesystem resources. This is done with 4 persistent volumes (and associated volume claims), mounted via NFS:
-  - <code>logs-volume</code> which saves backups of the logs in <code>/var/logs</code> inside each container
-  - <code>pdk-volume</code> which mounts the AWS ECR repo containing PDK information at <code>/pdk</code> inside each container
-  - <code>host-volume</code> which mounts the host <code>/</code> at <code>/host</code> to give read-only access to the filesystem inside each container
-  - <code>silimate-volume</code> which mounts the <code>/silimate</code> directory at <code>/silimate</code> inside each container</p>
+- <code>logs-volume</code> which saves backups of the logs in <code>/var/logs</code> inside each container
+- <code>pdk-volume</code> which mounts the AWS ECR repo containing PDK information at <code>/pdk</code> inside each container
+- <code>host-volume</code> which mounts the host <code>/</code> at <code>/host</code> to give read-only access to the filesystem inside each container
+- <code>silimate-volume</code> which mounts the <code>/silimate</code> directory at <code>/silimate</code> inside each container</p>
 <p>There are a few other noteworthy Kubernetes resources that are instantiated for final setup:
-  - A service called <code>silimate-platform-service</code>, which exposes the frontend
-  - A config map called <code>silimate-config</code>, which sets up customer-specific settings
-  - An ECR secret for retrieving Docker containers from the upstream repository called <code>aws-ecr-secret</code></p>
+- A service called <code>silimate-platform-service</code>, which exposes the frontend
+- A config map called <code>silimate-config</code>, which sets up customer-specific settings
+- An ECR secret for retrieving Docker containers from the upstream repository called <code>aws-ecr-secret</code></p>
 <!-- ### NGINX -->
 
 <h2 id="k8s-make-commands">K8s Make commands</h2>
