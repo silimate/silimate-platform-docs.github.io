@@ -148,11 +148,22 @@
 <h2 id="architecture-description">Architecture Description</h2>
 <p>Below is a representation of the microservices and how they interplay with one another.</p>
 <p><img alt="Platform architecture" src="../img/architecture.png" /></p>
-<p>Inside of Kubernetes, there are several resources that describe the infrastructure. There is a single deployment called <code>silimate-platform-k8s-deployment</code> which runs five containers:
-  - <code>silimate-platform-frontend</code> which contains NGINX and the frontend service
+<p>Inside of Kubernetes, there are several resources that describe the infrastructure. There is a single deployment called <code>silimate-platform-k8s-deployment</code> which instantiates a single pod containing five containers:
+  - <code>silimate-platform-frontend</code> which contains NGINX reverse proxy and the frontend service (on port )
   - <code>silimate-platform-backend</code> which contains the backend API server
   - <code>silimate-dashboard</code> which contains the Grafana dashboard with the necessary plugins
   - <code>silimate-flow</code> which is instantiated twice, with one instance corresponding to the flow scheduler and the other to an API server which powers the CLI and the front-end</p>
+<p>Besides the deployment, the Docker containers need access to various filesystem resources. This is done with 4 persistent volumes (and associated volume claims), mounted via NFS:
+  - <code>logs-volume</code> which saves backups of the logs in <code>/var/logs</code> inside each container
+  - <code>pdk-volume</code> which mounts the AWS ECR repo containing PDK information at <code>/pdk</code> inside each container
+  - <code>host-volume</code> which mounts the host <code>/</code> at <code>/host</code> to give read-only access to the filesystem inside each container
+  - <code>silimate-volume</code> which mounts the <code>/silimate</code> directory at <code>/silimate</code> inside each container</p>
+<p>There are a few other noteworthy Kubernetes resources that are instantiated for final setup:
+  - A service called <code>silimate-platform-service</code>, which exposes the frontend
+  - A config map called <code>silimate-config</code>, which sets up customer-specific settings
+  - An ECR secret for retrieving Docker containers from the upstream repository called <code>aws-ecr-secret</code></p>
+<!-- ### NGINX -->
+
 <h2 id="k8s-make-commands">K8s Make commands</h2>
 <p><strong>WIP</strong></p>
 <h2 id="installation-guide">Installation Guide</h2>
