@@ -164,30 +164,38 @@
 <h2 id="architecture-description">Architecture Description</h2>
 <p>Below is a diagram of the microservices and how they work with one another.</p>
 <p><img alt="Platform architecture" src="../img/architecture.png" /></p>
-<p>Inside of K8s, there are several <strong>resources</strong> that describe the infrastructure setup. Firstly, there is a single <strong>deployment</strong> called <code>silimate-platform-k8s-deployment</code> which instantiates a single <strong>pod</strong> (i.e., container group) called <code>silimate-platform-k8s</code> with five containers:
-- <code>silimate-platform-frontend</code>, which contains the <a href="https://www.nginx.com/">NGINX</a> reverse proxy (described later) and frontend web application
-- <code>silimate-platform-backend</code> which contains the backend API server
-- <code>silimate-dashboard</code> which contains the <a href="https://grafana.com/">Grafana</a> dashboard and the necessary plugins
-- <code>silimate-flow</code> which is instantiated twice, with one instance corresponding to the flow scheduler and the other instance to an API server which powers the CLI and frontend</p>
+<p>Inside of K8s, there are several <strong>resources</strong> that describe the infrastructure setup. Firstly, there is a single <strong>deployment</strong> called <code>silimate-platform-k8s-deployment</code> which instantiates a single <strong>pod</strong> (i.e., container group) called <code>silimate-platform-k8s</code> with five containers:</p>
+<ul>
+<li><code>silimate-platform-frontend</code>, which contains the <a href="https://www.nginx.com/">NGINX</a> reverse proxy (described later) and frontend web application</li>
+<li><code>silimate-platform-backend</code> which contains the backend API server</li>
+<li><code>silimate-dashboard</code> which contains the <a href="https://grafana.com/">Grafana</a> dashboard and the necessary plugins</li>
+<li><code>silimate-flow</code> which is instantiated twice, with one instance corresponding to the flow scheduler and the other instance to an API server which powers the CLI and frontend</li>
+</ul>
 <p>Besides the pod deployment, the Docker containers need access to various filesystem resources. This is done with two K8s resource types: <strong>volumes</strong> and <strong>volume claims</strong>. Volume claims are containers' requests to mount filesystems (volumes) on specified directories. The volume resources specify what the underlying filesystems correspond to. Volumes can be either persistent (data is retained between sessions) or non-persistent; in Silimate Platform, all volumes are persistent and are sourced either from an <a href="https://aws.amazon.com/efs/">AWS Elastic File Service (EFS)</a> volume or a <a href="https://en.wikipedia.org/wiki/Network_File_System">Network File System (NFS)</a> volume. To access resources on the host machine, a special NFS service is set up (described later) to directly mount directories from the host machine into containers.</p>
-<p>In the Silimate Platform, there are 4 persistent volumes (and associated volume claims), mounted via NFS:
-- <code>logs-volume</code> which saves backups of the logs in <code>/var/logs</code> inside each container (read-write)
-- <code>pdk-volume</code> which mounts the AWS ECR repo containing PDK information at <code>/pdk</code> inside each container (read-only)
-- <code>host-volume</code> which mounts the host <code>/</code> at <code>/host</code> to provide access to the host filesystem inside each container (read-only)
-- <code>silimate-volume</code> which mounts the <code>/silimate</code> directory at <code>/silimate</code> inside each container to give access for processing build artifacts (read-write)</p>
-<p>There are a few other noteworthy Kubernetes resources that are instantiated for final setup:
-- A service called <code>silimate-platform-service</code>, which allows the platform to be accessed on <code>192.168.49.2</code> port <code>80</code>
-- A config map called <code>silimate-config</code>, which sets up a few minor customer-specific settings
-- An <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth">ECR secret</a> for retrieving Docker containers from the upstream repository called <code>aws-ecr-secret</code>. This secret typically needs to be recreated when fetching the latest containers as it goes stale every couple hours. The K8s <code>make</code> commands (described later) make this very easy.</p>
+<p>In the Silimate Platform, there are 4 persistent volumes (and associated volume claims), mounted via NFS:</p>
+<ul>
+<li><code>logs-volume</code> which saves backups of the logs in <code>/var/logs</code> inside each container (read-write)</li>
+<li><code>pdk-volume</code> which mounts the AWS ECR repo containing PDK information at <code>/pdk</code> inside each container (read-only)</li>
+<li><code>host-volume</code> which mounts the host <code>/</code> at <code>/host</code> to provide access to the host filesystem inside each container (read-only)</li>
+<li><code>silimate-volume</code> which mounts the <code>/silimate</code> directory at <code>/silimate</code> inside each container to give access for processing build artifacts (read-write)</li>
+</ul>
+<p>There are a few other noteworthy Kubernetes resources that are instantiated for final setup:</p>
+<ul>
+<li>A service called <code>silimate-platform-service</code>, which allows the platform to be accessed on <code>192.168.49.2</code> port <code>80</code></li>
+<li>A config map called <code>silimate-config</code>, which sets up a few minor customer-specific settings</li>
+<li>An <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth">ECR secret</a> for retrieving Docker containers from the upstream repository called <code>aws-ecr-secret</code>. This secret typically needs to be recreated when fetching the latest containers as it goes stale every couple hours. The K8s <code>make</code> commands (described later) make this very easy.</li>
+</ul>
 <p>Finally, a set of resources are used to set up the <a href="https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/">Kubernetes dashboard</a> itself.</p>
 <h3 id="nginx"><a href="https://www.nginx.com/">NGINX</a></h3>
 <p>NGINX is a reverse proxy engine. In the case of Silimate Platform, it acts as a server that receives requests on port 80 (HTTP) and forwards client (e.g., web browser) requests to the platform's microservices based on the requested URL path. It also serves the static HTML files that comprise the frontend web interface, which essentially means that it acts as its own microservice.</p>
-<p>NGINX is configured to forward URLs as follows:
-- <code>/dash/*</code>: Grafana on port 2000
-- <code>/api/*</code>: Platform backend on port 3000
-- <code>/flow/*</code>: Flow service on port 8000
-- <code>/k8s/*</code>: Kubernetes dashboard at K8s internal URL http://kubernetes-dashboard.kubernetes-dashboard.svc.cluster.local/
-- Any other path: Platform frontend served directly by NGINX </p>
+<p>NGINX is configured to forward URLs as follows:</p>
+<ul>
+<li><code>/dash/*</code>: Grafana on port 2000</li>
+<li><code>/api/*</code>: Platform backend on port 3000</li>
+<li><code>/flow/*</code>: Flow service on port 8000</li>
+<li><code>/k8s/*</code>: Kubernetes dashboard at K8s internal URL http://kubernetes-dashboard.kubernetes-dashboard.svc.cluster.local/</li>
+<li>Any other path: Platform frontend served directly by NGINX </li>
+</ul>
 <h3 id="nfs-service-to-access-host-filesystem">NFS Service to Access Host Filesystem</h3>
 <p>In order to access the host filesystem from within a container, a Docker service runs to expose it on the K8s network as an NFS server. This is done with the following command:</p>
 <pre><code>docker run -d --rm --privileged --name nfs-server -v /:/var/nfs --network=minikube phico/nfs-server:latest

@@ -149,11 +149,13 @@
 <h2 id="infrastructure-makefile">Infrastructure Makefile</h2>
 <p>Silimate Platform comes with a Makefile that contains all the typical commands necessary to manage the platform infrastructure. This Makefile is located in <code>/silimate/platform-k8s</code> on the CAD server. You can navigate to this directory and run <code>make &lt;command-name&gt;</code> to run a command.</p>
 <h2 id="platform-bringup-from-nothing">Platform Bringup from Nothing</h2>
-<p>To bring up the platform infrastructure from nothing (from reboot for example), follow the steps below in order:
-- <a href="#starting-minikube">Start Minikube</a>
-- <a href="#starting-nfs-server">Start NFS Server</a>
-- <a href="#starting-local-services">Start Local Services</a>
-- <a href="#starting-k8s-dashboard">(Optional) Start K8s Dashboard</a></p>
+<p>To bring up the platform infrastructure from nothing (from reboot for example), follow the steps below in order:</p>
+<ul>
+<li><a href="#starting-minikube">Start Minikube</a></li>
+<li><a href="#starting-nfs-server">Start NFS Server</a></li>
+<li><a href="#starting-local-services">Start Local Services</a></li>
+<li><a href="#starting-k8s-dashboard">(Optional) Start K8s Dashboard</a></li>
+</ul>
 <p>Additionally, it is quite useful to familiarize yourself with the <a href="#utility-commands">Utility Commands</a> and <a href="#miscellaneous-commands">Miscellaneous Commands</a> when debugging.</p>
 <h2 id="starting-minikube">Starting Minikube</h2>
 <pre><code>make start-minikube
