@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://docs.silimate.com/infra-management/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Infrastructure Management - Silimate Platform</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Infrastructure Management";
+        var mkdocs_page_input_path = "infra-management.md";
+        var mkdocs_page_url = "/infra-management/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWC1C1TJLX"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', "G-QWC1C1TJLX");
+      </script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Silimate Platform
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Usage</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../flow-management/">Flow Management</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../flow-building/">Flow Building</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../built-in-steps/">Built-In Steps</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../step-building/">Step Building</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../cli/">CLI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../dashboards/">Dashboards</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced/Debug</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Infrastructure Management</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#infrastructure-makefile">Infrastructure Makefile</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#platform-bringup-from-nothing">Platform Bringup from Nothing</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#starting-minikube">Starting Minikube</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#starting-nfs-server">Starting NFS Server</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#starting-local-services">Starting Local Services</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#todo-subservices">TODO: subservices</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#starting-k8s-dashboard">Starting K8s Dashboard</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#utility-commands">Utility Commands</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#get-endpoint">Get Endpoint</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#get-pods">Get Pods</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#get-events">Get Events</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#watch">Watch</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#debug">Debug</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#miscellaneous-commands">Miscellaneous Commands</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#unused-db-commands-for-cloud">Unused: DB + Commands for Cloud</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../installing-updates/">Installing Updates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../admin-tools/">Admin Tools</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../architecture/">Architecture</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">About</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="https://www.silimate.com">Silimate Website</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://silimate.github.io/privacy-policy/privacy-policy.html">Privacy Policy</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Silimate Platform</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Advanced/Debug</li>
+      <li class="breadcrumb-item active">Infrastructure Management</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="infrastructure-management">Infrastructure Management</h1>
+<p>This section will explain how to manage Kubernetes/Docker infrastructure. This guide assumes that the necessary tools are already installed. For a quick intro to K8s/Docker and a deeper dive into how the infrastructure works, please see <a href="../architecture/">Architecture</a>.</p>
+<h2 id="infrastructure-makefile">Infrastructure Makefile</h2>
+<p>Silimate Platform comes with a Makefile that contains all the typical commands necessary to manage the platform infrastructure. This Makefile is located in <code>/silimate/platform-k8s</code> on the CAD server. You can navigate to this directory and run <code>make &lt;command-name&gt;</code> to run a command.</p>
+<h2 id="platform-bringup-from-nothing">Platform Bringup from Nothing</h2>
+<p>To bring up the platform infrastructure from nothing (from reboot for example), follow the steps below in order:
+- <a href="#starting-minikube">Start Minikube</a>
+- <a href="#starting-nfs-server">Start NFS Server</a>
+- <a href="#starting-local-services">Start Local Services</a>
+- <a href="#starting-k8s-dashboard">(Optional) Start K8s Dashboard</a></p>
+<p>Additionally, it is quite useful to familiarize yourself with the <a href="#utility-commands">Utility Commands</a> and <a href="#miscellaneous-commands">Miscellaneous Commands</a> when debugging.</p>
+<h2 id="starting-minikube">Starting Minikube</h2>
+<pre><code>make start-minikube
+</code></pre>
+<p>If you are using <code>minikube</code> for Kubernetes (K8s), you can start it with this command. Under the hood, this runs:</p>
+<pre><code>sudo minikube start --memory=max --cpus=max --driver=docker --force
+</code></pre>
+<p>This effectively launches Minikube with no RAM/CPU limits using the Docker driver, ignoring any system incompatibility warnings (e.g., CentOS does not like Docker...)</p>
+<p>To stop Minikube, use <code>make stop-minikube</code> or <code>sudo minikube stop</code>.</p>
+<h2 id="starting-nfs-server">Starting NFS Server</h2>
+<pre><code>make start-nfs-server
+</code></pre>
+<p>This launches the NFS server required to give filesystem access to Docker containers running in K8s.</p>
+<p>To stop the NFS server, use <code>make stop-nfs-server</code> or <code>sudo docker stop nfs-server</code>.</p>
+<h2 id="starting-local-services">Starting Local Services</h2>
+<pre><code>make start
+</code></pre>
+<p>This launches all the services needed to run the platform.</p>
+<p>To stop all the services, run <code>make stop</code>.</p>
+<h3 id="todo-subservices">TODO: subservices</h3>
+<h2 id="starting-k8s-dashboard">Starting K8s Dashboard</h2>
+<pre><code>make start-k8s-dash
+</code></pre>
+<p>This launches the K8s dashboard.</p>
+<p>To stop the K8s dashboard, run <code>make stop-k8s-dash</code>.</p>
+<h2 id="utility-commands">Utility Commands</h2>
+<h3 id="get-endpoint">Get Endpoint</h3>
+<p>Get the endpoint associated with the Platform K8s service.</p>
+<pre><code>make get-endpoint
+</code></pre>
+<h3 id="get-pods">Get Pods</h3>
+<p>Get the pod name that is produced by the K8s deployment.</p>
+<pre><code>make get-pods
+</code></pre>
+<h3 id="get-events">Get Events</h3>
+<p>Very useful command for debugging. Gets the most recent Kubernetes events.</p>
+<pre><code>make get-events
+</code></pre>
+<h3 id="watch">Watch</h3>
+<p><a href="#get-events">Get events</a> in a loop.</p>
+<pre><code>make watch
+</code></pre>
+<h3 id="debug">Debug</h3>
+<p>Run an <code>alpine</code> container inside of K8s to do any debugging of the infrastructure.</p>
+<pre><code>make debug
+</code></pre>
+<h2 id="miscellaneous-commands">Miscellaneous Commands</h2>
+<p><strong>TODO</strong></p>
+<h2 id="unused-db-commands-for-cloud">Unused: DB + Commands for Cloud</h2>
+<p><strong>TODO</strong></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../dashboards/" class="btn btn-neutral float-left" title="Dashboards"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../installing-updates/" class="btn btn-neutral float-right" title="Installing Updates">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../dashboards/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../installing-updates/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

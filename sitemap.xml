@@ -2,52 +2,57 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://docs.silimate.com/</loc>
-         <lastmod>2024-02-16</lastmod>
+         <lastmod>2024-02-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.silimate.com/admin-tools/</loc>
-         <lastmod>2024-02-16</lastmod>
+         <lastmod>2024-02-17</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://docs.silimate.com/architecture/</loc>
+         <lastmod>2024-02-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.silimate.com/built-in-steps/</loc>
-         <lastmod>2024-02-16</lastmod>
+         <lastmod>2024-02-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.silimate.com/cli/</loc>
-         <lastmod>2024-02-16</lastmod>
+         <lastmod>2024-02-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.silimate.com/dashboards/</loc>
-         <lastmod>2024-02-16</lastmod>
+         <lastmod>2024-02-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.silimate.com/flow-building/</loc>
-         <lastmod>2024-02-16</lastmod>
+         <lastmod>2024-02-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.silimate.com/flow-management/</loc>
-         <lastmod>2024-02-16</lastmod>
+         <lastmod>2024-02-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.silimate.com/infrastructure/</loc>
-         <lastmod>2024-02-16</lastmod>
+         <loc>https://docs.silimate.com/infra-management/</loc>
+         <lastmod>2024-02-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.silimate.com/installing-updates/</loc>
-         <lastmod>2024-02-16</lastmod>
+         <lastmod>2024-02-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.silimate.com/step-building/</loc>
-         <lastmod>2024-02-16</lastmod>
+         <lastmod>2024-02-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
